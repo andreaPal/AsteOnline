@@ -1,4 +1,3 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8" import="java.util.*,db.*,model.*"%>
 <jsp:useBean id="user" scope="session" class="model.Utente" />
 <jsp:setProperty name="user" property="*"/>
