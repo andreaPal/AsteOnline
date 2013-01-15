@@ -14,4 +14,3 @@ nb-configuration.xml
 *.war
 *.ear
 /dist/
-/nbproject/private/
