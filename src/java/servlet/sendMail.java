@@ -5,11 +5,14 @@
 package servlet;
 
 import db.DBManager;
+import email.PasswordMail;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +28,7 @@ public class sendMail extends HttpServlet {
 
     String username,mail,password;
     private DBManager manager;
+    private PasswordMail PasswordMail;
 
     @Override
     public void init() throws ServletException {
@@ -38,6 +42,13 @@ public class sendMail extends HttpServlet {
         try {
             mail = manager.getMail(username);
             password = manager.getPassword(username);
+                    try {
+                        PasswordMail = new PasswordMail(mail,password);
+                    } catch (AddressException ex) {
+                        Logger.getLogger(sendMail.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (MessagingException ex) {
+                        Logger.getLogger(sendMail.class.getName()).log(Level.SEVERE, null, ex);
+                    }
         } catch (SQLException ex) {
             Logger.getLogger(sendMail.class.getName()).log(Level.SEVERE, null, ex);
         }
