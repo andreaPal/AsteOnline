@@ -52,6 +52,7 @@ public class sendMail extends HttpServlet {
         } catch (SQLException ex) {
             Logger.getLogger(sendMail.class.getName()).log(Level.SEVERE, null, ex);
         }
+        response.sendRedirect(request.getContextPath());
     }
 
     @Override
