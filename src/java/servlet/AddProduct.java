@@ -35,14 +35,19 @@ public class AddProduct extends HttpServlet {
    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {}
+    
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+    
     int id_utente = 0;
         
     try {
         HttpSession session = request.getSession(false);
         if (session==null || session.getAttribute("user") == null) {
-            response.sendRedirect(request.getContextPath());
+            response.sendRedirect(request.getContextPath() + "/addProduct.jsp");
             return;
         }
     
@@ -52,10 +57,15 @@ public class AddProduct extends HttpServlet {
         String categoria = request.getParameter("categoria");
         String initial_price = request.getParameter("prezzo_iniziale");
         String min_price = request.getParameter("prezzo_min");
-        String minimum_increment = request.getParameter("incremento_min");
+        String minimum_increment = request.getParameter("incremento_minimo");
         String shipping_price = request.getParameter("prezzo_spedizione");
         String deadline = request.getParameter("scadenza");
 
+        if(nome.isEmpty() || descrizione.isEmpty() || categoria.isEmpty()){
+            session.setAttribute("message", "I campi non possono essere vuoti!");
+            response.sendRedirect(request.getContextPath() + "addProduct.jsp");
+        }
+        
         Utente utente = (Utente) session.getAttribute("user");
         id_utente = utente.getId();
         int quantità = 0;
@@ -63,6 +73,7 @@ public class AddProduct extends HttpServlet {
             quantità = Integer.parseInt(quantity);
         } catch (NumberFormatException e) {
                     session.setAttribute("message", "Input quantit&agrave errato");
+                    //response.sendRedirect("addProduct.jsp");
         }
 
         float prezzo_iniziale = 0;
@@ -70,6 +81,7 @@ public class AddProduct extends HttpServlet {
             prezzo_iniziale = Float.parseFloat(initial_price);
         } catch (NumberFormatException e) {
                     session.setAttribute("message", "Input prezzo iniziale errato");
+                    //response.sendRedirect("addProduct.jsp");
         }
 
         float prezzo_minimo = 0;
@@ -77,6 +89,7 @@ public class AddProduct extends HttpServlet {
             prezzo_minimo = Float.parseFloat(min_price);
         } catch (NumberFormatException e) {
                     session.setAttribute("message", "Input prezzo minimo errato");
+                    //response.sendRedirect("addProduct.jsp");
         }
 
         float incremento_minimo = Float.parseFloat(minimum_increment);
@@ -84,6 +97,7 @@ public class AddProduct extends HttpServlet {
             incremento_minimo = Float.parseFloat(minimum_increment);
         } catch (NumberFormatException e) {
                     session.setAttribute("message", "Input incremento minimo errato");
+                    //response.sendRedirect("addProduct.jsp");
         }
 
         float prezzo_spedizione = 0;
@@ -91,6 +105,7 @@ public class AddProduct extends HttpServlet {
             prezzo_spedizione = Float.parseFloat(shipping_price);
         } catch (NumberFormatException e) {
                     session.setAttribute("message", "Input prezzo spedizione errato");
+                    //response.sendRedirect("addProduct.jsp");
         }
 
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -100,17 +115,13 @@ public class AddProduct extends HttpServlet {
         try {
             manager.aggiungiProdotto(id_utente,nome,quantità,descrizione,categoria,prezzo_iniziale,
                     prezzo_minimo,incremento_minimo,prezzo_spedizione,scadenza);
+            session.setAttribute("message", "Prodotto aggiunto correttamente");
             response.sendRedirect("user_page.jsp");
         } catch (SQLException ex) {
             Logger.getLogger(AddProduct.class.getName()).log(Level.SEVERE, null, ex);
         }
-    } catch (ParseException ex) {
+        } catch (ParseException ex) {
                 Logger.getLogger(AddProduct.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        }
     }
-    
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {}
 }

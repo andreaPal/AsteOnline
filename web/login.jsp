@@ -3,7 +3,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <script src="http://code.jquery.com/jquery-latest.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
         <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
         <title>Login</title>
         <script>
@@ -14,11 +14,14 @@
                 
                 if (username==null || username=="" || password==null || password=="")
                 {
-                    alert($('#flash_error') == []);
-                    if ($('#flash_error') == [])
-                      $('#loginForm').prepend('<div id="flash_error" class="alert alert-error">I campi username/password non devono essere vuoti!</div>');
+                    //alert($('#flash_error'));
+                    if($('#flash_login_error').length == 0){
+                    $('#loginForm').prepend('<div id="flash_login_error" class="alert alert-error">I campi username/password non devono essere vuoti!</div>');
+                    //$('#flash_login_error').delay(2000).fadeOut('<div id="flash_login_error" class="alert alert-error">I campi username/password non devono essere vuoti!</div>');
+                    } 
                     return false;
                 }
+                return true;
             }
             
             function validateRegistrationForm(){
@@ -33,9 +36,12 @@
                 if(username==null || username=="" || password==null || password==""
                     || nome==null || nome=="" || city==null || city=="" 
                     || indirizzo==null | indirizzo=="" || email==null || email=="" 
-                    || email2==null || email2==null)
+                    || email2==null || email2=="")
                 {
-                    alert("I campi non devono essere vuoti!");
+                    if($('#flash_registration_error').length == 0){
+                    $('#registrationForm').prepend('<div id="flash_registration_error" class="alert alert-error">I campi non devono essere vuoti!</div>');
+                    //$('#flash_registration_error').delay(2000).fadeOut();
+                    }
                     return false;
                 }
                 
@@ -46,6 +52,7 @@
                     alert("Inserire un indirizzo email valido!");
                     return false;
                 }
+                return true;
             }
         </script>
     </head>

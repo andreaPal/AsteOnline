@@ -148,7 +148,7 @@ public class DBManager implements Serializable{
             String categoria, float prezzo_iniziale, float prezzo_minimo, float incremento_minimo,
             float prezzo_spedizione, Date scadenza) throws SQLException{
         PreparedStatement stm = con.prepareStatement("INSERT INTO prodotto(id_venditore,nome,descrizione,"
-                + "quantità,categoria,prezzo_iniziale,prezzo_minimo,incremento_minimo,"
+                + "quantity,categoria,prezzo_iniziale,prezzo_minimo,incremento_minimo,"
                 + "prezzo_spedizione,scadenza) VALUES(?,?,?,?,?,?,?,?,?,?)");
         
         //String nome_immagine = "default.gif";
