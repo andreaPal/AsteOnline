@@ -11,11 +11,10 @@
         <div class="well">
             <div class="container">
                 <p>Inserisci email:</p>
-                <div class="input-append">
-                    <input class="span2" id="appendedInputButton" type="text"
-                           placeholder="text@example.com"> 
-                    <button class="btn btn-primary" type="button">Submit</button>
-                </div>
+                <form name="input" action="sendMail" method="get">
+                    <input type="text" name="user">
+                    <input type="submit" value="Submit" >
+                </form>
             </div>
         </div>
     </body>

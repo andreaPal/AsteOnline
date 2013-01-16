@@ -20,6 +20,10 @@
         <servlet-name>AddProduct</servlet-name>
         <servlet-class>servlet.AddProduct</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>sendMail</servlet-name>
+        <servlet-class>servlet.sendMail</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Logout</servlet-name>
         <url-pattern>/Logout</url-pattern>
@@ -35,6 +39,10 @@
     <servlet-mapping>
         <servlet-name>AddProduct</servlet-name>
         <url-pattern>/AddProduct</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>sendMail</servlet-name>
+        <url-pattern>/sendMail</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

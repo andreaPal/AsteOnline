@@ -103,6 +103,47 @@ public class DBManager implements Serializable{
         
     }
     
+    public String getMail(String username) throws SQLException {
+        String mail="";
+        PreparedStatement stm = con.prepareStatement("SELECT email FROM utente WHERE username = ? ");
+    
+        try {
+        stm.setString(1, username);      
+        ResultSet rs = stm.executeQuery();
+        try{
+                while(rs.next()){
+                   mail = rs.getString("email");
+                }
+            } finally{
+                rs.close();
+            }
+        } finally {
+            stm.close();
+        }
+        return mail;
+    
+    }
+    
+    public String getPassword(String username) throws SQLException {
+        String password="";
+        PreparedStatement stm = con.prepareStatement("SELECT password FROM utente WHERE username = ? ");
+    
+        try {
+        stm.setString(1, username);      
+        ResultSet rs = stm.executeQuery();
+        try{
+                while(rs.next()){
+                   password = rs.getString("password");
+                }
+            } finally{
+                rs.close();
+            }
+        } finally {
+            stm.close();
+        }
+        return password;
+    
+    }
     public void aggiungiProdotto(int id_venditore, String nome, int quantity, String descrizione, 
             String categoria, float prezzo_iniziale, float prezzo_minimo, float incremento_minimo,
             float prezzo_spedizione, Date scadenza) throws SQLException{
