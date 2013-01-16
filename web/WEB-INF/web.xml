@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" 
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" 
-         xmlns:c="http://java.sun.com/jsp/jstl/core"
-         xmlns:fmt="http://java.sun.com/jsp/jstl/fmt">
-
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
     <listener>
         <description>listener</description>
         <listener-class>listener.WebappContextListener</listener-class>
@@ -33,6 +28,10 @@
         <servlet-name>Acquisti</servlet-name>
         <servlet-class>servlet.Acquisti</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RicercaProdotti</servlet-name>
+        <servlet-class>servlet.RicercaProdotti</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Logout</servlet-name>
         <url-pattern>/Logout</url-pattern>
@@ -57,12 +56,15 @@
         <servlet-name>Acquisti</servlet-name>
         <url-pattern>/Acquisti</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RicercaProdotti</servlet-name>
+        <url-pattern>/RicercaProdotti</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
-    
     <welcome-file-list>
         <welcome-file>login.jsp</welcome-file>
     </welcome-file-list>
@@ -70,4 +72,5 @@
         <param-name>dburl</param-name>
         <param-value>jdbc:mysql://localhost:3306/asteonline?zeroDateTimeBehavior=convertToNull</param-value>
     </context-param>
+
 </web-app>

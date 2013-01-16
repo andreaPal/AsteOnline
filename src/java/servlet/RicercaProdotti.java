@@ -21,28 +21,32 @@ import model.Prodotto;
  *
  * @author andrea
  */
-public class Acquisti extends HttpServlet {
-
+public class RicercaProdotti extends HttpServlet {
+    
     private DBManager manager;
+    
     @Override
     public void init() throws ServletException {
       this.manager = (DBManager)super.getServletContext().getAttribute("dbmanager");
     }
+    
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
             List<Prodotto> products = manager.getProducts();
-            request.setAttribute("products", products);
-            request.getRequestDispatcher("acquisti.jsp").forward(request, response);
+            //FARE ESPRESSIONE REGOLARE
+            /*JSONArray json_products = new JSONArray();
+            for(Prodotto p : products){
+                    JSONObject json_product = new JSONObject();
+                    json_products.put("course_name",c.getCourse_name()).put("url",c.getUrl()).put("actual_start_date", c.getActual_start_date()).put("place",c.getPlace()).put("plannedCoursePeriod",c.getPlannedCoursePeriod()).put("notes",c.getNotes()).put("academic_year", c.getAcademic_year());
+                    json_products.put(json_product);
+            }*/
+            response.setContentType("application/json");
+            //response.getWriter().print(json_products.toString());
+            response.getWriter().print("{'si':'prova'}".toString());
         } catch (SQLException ex) {
             Logger.getLogger(Acquisti.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
 }
