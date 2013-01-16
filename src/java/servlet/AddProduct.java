@@ -61,9 +61,18 @@ public class AddProduct extends HttpServlet {
         String shipping_price = request.getParameter("prezzo_spedizione");
         String deadline = request.getParameter("scadenza");
 
-        if(nome.isEmpty() || descrizione.isEmpty() || categoria.isEmpty()){
+        if(nome==null || nome.trim().isEmpty() || quantity==null || 
+                quantity.trim().isEmpty() || descrizione==null ||
+                descrizione.trim().isEmpty() || categoria==null ||
+                categoria.trim().isEmpty() || initial_price==null ||
+                initial_price.trim().isEmpty() || min_price==null ||
+                min_price.trim().isEmpty() || minimum_increment==null ||
+                minimum_increment.trim().isEmpty() || shipping_price==null ||
+                shipping_price.trim().isEmpty() || deadline==null ||
+                deadline.trim().isEmpty()){
             session.setAttribute("message", "I campi non possono essere vuoti!");
             response.sendRedirect(request.getContextPath() + "addProduct.jsp");
+            return;
         }
         
         Utente utente = (Utente) session.getAttribute("user");
