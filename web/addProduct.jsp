@@ -73,7 +73,7 @@
                     </tr>
                 </table>
                 <br/>
-                <input class="btn btn-primary" name="save" type="submit" value="Aggiungi" />
+                <input class="btn btn-primary" type="submit" value="Aggiungi" />
                 <input class="btn" type="reset" value="Reset"/>
             </form>
             <br/><br/>

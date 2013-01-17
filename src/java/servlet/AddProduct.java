@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Utente;
+import upload.UploadFile;
 
 /**
  *
@@ -32,7 +33,7 @@ import model.Utente;
 public class AddProduct extends HttpServlet {
 
     DBManager manager;
-    //private String dirName;
+    // private String dirName;
     
     @Override
     public void init() throws ServletException {
@@ -44,11 +45,11 @@ public class AddProduct extends HttpServlet {
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         // read the uploadDir from the servlet parameters
-        dirName = config.getInitParameter("img");
+        dirName = config.getInitParameter("uploadDir");
         if (dirName == null) {
             throw new ServletException("Please supply uploadDir parameter");
         }
-    }*/   
+    }*/  
    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -100,7 +101,7 @@ public class AddProduct extends HttpServlet {
         
         // String dirName = request.getContextPath() + "/web/img";
         
-        response.setContentType("text/plain");
+        // response.setContentType("text/plain");
               
         Utente utente = (Utente) session.getAttribute("user");
         id_utente = utente.getId();
@@ -148,36 +149,11 @@ public class AddProduct extends HttpServlet {
         Date utilDate = (Date) df.parse(deadline);
         java.sql.Date scadenza = new java.sql.Date(utilDate.getTime());
         
-        try {
-            // Use an advanced form of the constructor that specifies a character
-            // encoding of the request (not of the file contents) and a file
-            // rename policy.
-            MultipartRequest multi =
-                new MultipartRequest(request, getServletContext().getRealPath("/img"), 10*1024*1024,
-                "ISO-8859-1", new DefaultFileRenamePolicy());
-
-            /* Enumeration params = multi.getParameterNames();
-            while (params.hasMoreElements()) {
-                name = (String)params.nextElement();
-                value = multi.getParameter(name);
-            } */
-            
-            Enumeration files = multi.getFileNames();
-            while (files.hasMoreElements()) {
-                name = (String)files.nextElement();
-                filename = multi.getFilesystemName(name);
-                // String originalFilename = multi.getOriginalFileName(name);
-                // String type = multi.getContentType(name);
-                File f = multi.getFile(name);
-                
-                if (f != null) {
-                    session.setAttribute("success", "file scritto correttamente");
-                }
-            }
-        } catch (IOException IEx) {
-            this.getServletContext().log("Error reading saving file");
-        } 
-
+        String dirName = getServletContext().getRealPath("/img");
+        UploadFile upload = new UploadFile();
+        upload.uploadFile(request, dirName);
+        
+        
         try {
             manager.aggiungiProdotto(id_utente,nome,quantità,descrizione,categoria,prezzo_iniziale,
                     prezzo_minimo,incremento_minimo,prezzo_spedizione,scadenza,filename);
