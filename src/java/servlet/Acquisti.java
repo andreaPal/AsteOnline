@@ -15,6 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Categoria;
 import model.Prodotto;
 
 /**
@@ -33,7 +34,10 @@ public class Acquisti extends HttpServlet {
             throws ServletException, IOException {
         try {
             List<Prodotto> products = manager.getProducts();
+            List<Categoria> categories = manager.getCategories();
+
             request.setAttribute("products", products);
+            request.setAttribute("categories", categories);
             request.getRequestDispatcher("acquisti.jsp").forward(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(Acquisti.class.getName()).log(Level.SEVERE, null, ex);

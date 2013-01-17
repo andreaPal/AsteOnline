@@ -17,23 +17,44 @@
             $(document).ready(function() {
 
                 $("#search_button").click(function(){
-                    $.ajax({
+                    ajax_search();
+                });
+                
+                $("#categoria_id").click(function(){
+                    ajax_search();
+                });
+            });
+            
+            function ajax_search() {
+                $.ajax({
                       type: "POST",
                       url: "/AsteOnline/RicercaProdotti",
-                      dataType: "text",
-                      data: "search_text=" + $("#search_text").val(),
+                      dataType: "json",
+                      data: "search_text=" + $("#search_text").val() + "&category=" + $('#categoria_id option:selected').val(),
                       success: function(msg)
                       {
-                        alert("success");
-                        alert(msg);
+                        var tbody_products = "";
+                        for(var i=0; i<msg.length;i++){
+                            tbody_products += "<tr><td>"+ msg[i]['id_product'] +"</td>";
+                            tbody_products += "<td>"+ msg[i]['name'] +"</td>";
+                            tbody_products += "<td>"+ msg[i]['description'] +"</td>";
+                            tbody_products += "<td>"+ msg[i]['quantity'] +"</td>";
+                            tbody_products += "<td>"+ msg[i]['category'] +"</td>";
+                            tbody_products += "<td>"+ msg[i]['init_price'] +"</td>";
+                            tbody_products += "<td>"+ msg[i]['min_price'] +"</td>";
+                            tbody_products += "<td>"+ msg[i]['inc_min'] +"</td>";
+                            tbody_products += "<td>"+ msg[i]['delivery_price'] +"</td>";
+                            tbody_products += "<td>"+ msg[i]['deadline'] +"</td>";
+                            tbody_products += "<td>"+ msg[i]['image'] +"</td></tr>";
+                        }
+                        $("#products_table").html(tbody_products);
                       },
                       error: function()
                       {
                         alert("Chiamata fallita, si prega di riprovare...");
                       }
                     });
-                });
-            });
+            }
         </script>
     </head>
     <body>
@@ -57,6 +78,7 @@
                     <th>Offerta</th>
                 </tr>
             </thead>
+            <tbody id="products_table">
               <c:forEach var="p" items="${products}">
                     <tr>
                         <td><c:out value="${p.getId_prodotto()}"/></td>
@@ -78,8 +100,6 @@
                         </td>
                     </tr>
               </c:forEach>
-            <tbody>
-                
             </tbody>
             
         </table>
@@ -89,8 +109,13 @@
         </form>    
         <br> Filtro Categoria</br>
         <form action="ricerca_prodotto" method="POST">
-            <select>
-                <option value="categoria1">categoria1</option>
+            <select id="categoria_id">
+                <option value="any">Any</option>
+                <c:forEach var="c" items="${categories}">
+                    <option value="<c:out value="${c.getId_categoria()}"/>">
+                        <c:out value="${c.getName()}"/>
+                    </option>
+                </c:forEach>
             </select>
         </form>  
     </body>

@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
+import model.Categoria;
 import model.Prodotto;
 import model.StoricoAsta;
 import model.Utente;
@@ -229,7 +230,7 @@ public class DBManager implements Serializable{
     
     public List<Prodotto> getProducts() throws SQLException{
         List<Prodotto> products = new ArrayList<Prodotto>();
-        PreparedStatement stm = con.prepareStatement("SELECT * FROM prodotto");
+        PreparedStatement stm = con.prepareStatement("SELECT * FROM prodotto LEFT JOIN categoria ON prodotto.categoria_id = categoria.id_categoria");
         
         try{
             ResultSet rs = stm.executeQuery();
@@ -241,7 +242,7 @@ public class DBManager implements Serializable{
                     product.setNome(rs.getString("nome"));
                     product.setDescrizione(rs.getString("descrizione"));
                     product.setQuantity(rs.getInt("quantity"));
-                    product.setCategoria(rs.getString("categoria"));
+                    product.setCategoria(rs.getString("categoria.nome"));
                     product.setPrezzo_iniziale(rs.getFloat("prezzo_iniziale"));
                     product.setPrezzo_minimo(rs.getFloat("prezzo_minimo"));
                     product.setPrezzo_spedizione(rs.getFloat("prezzo_spedizione"));
@@ -258,7 +259,41 @@ public class DBManager implements Serializable{
         }
         return products;
     }
-    
+    public List<Prodotto> getProductsByCategory(String category) throws SQLException{
+        List<Prodotto> products = new ArrayList<Prodotto>();
+        PreparedStatement stm = con.prepareStatement(
+                "SELECT * FROM prodotto LEFT JOIN categoria ON prodotto.categoria_id = categoria.id_categoria WHERE categoria.id_categoria = ?");
+        stm.setInt(1, Integer.parseInt(category));
+        
+        try{
+            ResultSet rs = stm.executeQuery();
+            try{
+                while(rs.next()){
+                    Prodotto product = new Prodotto();
+                    product.setId_prodotto(rs.getInt("id_prodotto"));
+                    product.setId_venditore(rs.getInt("id_venditore"));
+                    product.setNome(rs.getString("nome"));
+                    product.setDescrizione(rs.getString("descrizione"));
+                    product.setQuantity(rs.getInt("quantity"));
+                    product.setCategoria(rs.getString("categoria.nome"));
+                    product.setPrezzo_iniziale(rs.getFloat("prezzo_iniziale"));
+                    product.setPrezzo_minimo(rs.getFloat("prezzo_minimo"));
+                    product.setPrezzo_spedizione(rs.getFloat("prezzo_spedizione"));
+                    product.setIncremento_minimo(rs.getFloat("incremento_minimo"));
+                    product.setScadenza(rs.getDate("scadenza"));
+                    product.setNome_immagine(rs.getString("nome_immagine"));
+                    products.add(product);                    
+                }
+            }finally{
+                rs.close();
+            }
+        }finally{
+            stm.close();
+        }
+        return products;
+    }
+
+
     public List<StoricoAsta> getHistoricalFromProduct(int id_prodotto) throws SQLException{
         List<StoricoAsta> historicals = new ArrayList<StoricoAsta>();
         PreparedStatement stm = con.prepareCall("SELECT * FROM storico_asta WHERE id_prodotto = ?");
@@ -336,6 +371,27 @@ public class DBManager implements Serializable{
             stm.close();
         }
         return wins;
+    }
+
+    public List<Categoria> getCategories() throws SQLException {
+        List<Categoria> categories = new ArrayList<Categoria>();
+        PreparedStatement stm = con.prepareStatement(
+                "SELECT * FROM categoria");
+        
+        try{
+            ResultSet rs = stm.executeQuery();
+            try{
+                while(rs.next()){
+                    Categoria category = new Categoria(rs.getInt("id_categoria"), rs.getString("nome"));
+                    categories.add(category);
+                }
+            }finally{
+                rs.close();
+            }
+        }finally{
+            stm.close();
+        }
+        return categories;
     }
 
 }
