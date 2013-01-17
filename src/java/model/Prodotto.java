@@ -141,6 +141,13 @@ public class Prodotto implements Serializable{
     }
 
     /**
+     * @return the scadenza
+     */
+    public String getRightScadenza() {
+        return scadenza.toString();
+    }
+
+    /**
      * @param scadenza the scadenza to set
      */
     public void setScadenza(Date scadenza) {

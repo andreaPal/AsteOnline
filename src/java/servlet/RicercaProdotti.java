@@ -58,19 +58,20 @@ public class RicercaProdotti extends HttpServlet {
                     json_product.put("id_product", p.getId_prodotto());
                     json_product.put("name", p.getNome());
                     json_product.put("description", p.getDescrizione());
-                    json_product.put("quantity", p.getQuantity());
+                    json_product.put("quantity", Integer.toString(p.getQuantity()));
                     json_product.put("category", p.getCategoria());
                     json_product.put("init_price", p.getPrezzo_iniziale());
                     json_product.put("min_price", p.getPrezzo_minimo());
                     json_product.put("inc_min", p.getIncremento_minimo());
                     json_product.put("delivery_price", p.getPrezzo_spedizione());
-                    json_product.put("deadline", p.getScadenza());
+                    json_product.put("deadline", p.getRightScadenza());
                     json_product.put("image", p.getNome_immagine());               
                     json_products.add(json_product);
                  }
             }
             
             response.setContentType("application/json");
+            System.out.println(json_products.toString());
             response.getWriter().print(json_products.toString());
             //response.getWriter().print("{'si':'prova'}".toString());
         } catch (SQLException ex) {

@@ -29,23 +29,27 @@
                 $.ajax({
                       type: "POST",
                       url: "/AsteOnline/RicercaProdotti",
-                      dataType: "json",
                       data: "search_text=" + $("#search_text").val() + "&category=" + $('#categoria_id option:selected').val(),
-                      success: function(msg)
+                      dataType: "json",
+                      success: function(json)
                       {
                         var tbody_products = "";
-                        for(var i=0; i<msg.length;i++){
-                            tbody_products += "<tr><td>"+ msg[i]['id_product'] +"</td>";
-                            tbody_products += "<td>"+ msg[i]['name'] +"</td>";
-                            tbody_products += "<td>"+ msg[i]['description'] +"</td>";
-                            tbody_products += "<td>"+ msg[i]['quantity'] +"</td>";
-                            tbody_products += "<td>"+ msg[i]['category'] +"</td>";
-                            tbody_products += "<td>"+ msg[i]['init_price'] +"</td>";
-                            tbody_products += "<td>"+ msg[i]['min_price'] +"</td>";
-                            tbody_products += "<td>"+ msg[i]['inc_min'] +"</td>";
-                            tbody_products += "<td>"+ msg[i]['delivery_price'] +"</td>";
-                            tbody_products += "<td>"+ msg[i]['deadline'] +"</td>";
-                            tbody_products += "<td>"+ msg[i]['image'] +"</td></tr>";
+                        for(var i=0; i<json.length;i++){
+                            tbody_products += "<tr><td>"+ json[i]['id_product'] +"</td>";
+                            tbody_products += "<td>"+ json[i]['name'] +"</td>";
+                            tbody_products += "<td>"+ json[i]['description'] +"</td>";
+                            tbody_products += "<td>"+ json[i]['quantity'] +"</td>";
+                            tbody_products += "<td>"+ json[i]['category'] +"</td>";
+                            tbody_products += "<td>"+ json[i]['init_price'] +"</td>";
+                            tbody_products += "<td>"+ json[i]['min_price'] +"</td>";
+                            tbody_products += "<td>"+ json[i]['inc_min'] +"</td>";
+                            tbody_products += "<td>"+ json[i]['delivery_price'] +"</td>";
+                            tbody_products += "<td>"+ json[i]['deadline'] +"</td>";
+                            tbody_products += "<td>"+ json[i]['image'] +"</td>";
+                            tbody_products += "<td><form name='form_offerta' action=\"offerta_prodotto\" method=\"POST\">\n\
+                                                      Offerta: <input style=\"width:20px\" type=\"text\" name=\"offerta\">\n\
+                                                      <input type=\"submit\" value=\"Submit\">\n\
+                                                    </form></td></tr>"
                         }
                         $("#products_table").html(tbody_products);
                       },
@@ -61,7 +65,7 @@
         <%@ include file="headerlogin.jsp" %>
                 <div class="container well">
         <h3>Acquisti</h3>
-        <table class="table table-bordered">
+        <table style="margin-left:-13px;" class="table table-bordered">
             <thead>
                 <tr>
                     <th>ID Prodotto</th>
@@ -94,7 +98,7 @@
                         <td><c:out value="${p.getNome_immagine()}"/></td>
                         <td>
                             <form name="form_offerta" action="offerta_prodotto" method="POST">
-                                Offerta: <input type="text" name="offerta">
+                                Offerta: <input type="text" style="width:20px" name="offerta">
                                 <input type="submit" value="Submit">
                             </form></form>
                         </td>
@@ -103,12 +107,11 @@
             </tbody>
             
         </table>
-        <form class="form-search" onsubmit="return false;">
+        <form style="float:left;" class="form-search" onsubmit="return false;">
             <input type="text" id="search_text" class="input-medium search-query" />
             <button type="submit" id="search_button" class="btn">Ricerca Prodotto</button>
-        </form>    
-        <br> Filtro Categoria</br>
-        <form action="ricerca_prodotto" method="POST">
+        </form>
+        <form style="margin-left:30px;float:left;" action="ricerca_prodotto" method="POST">
             <select id="categoria_id">
                 <option value="any">Any</option>
                 <c:forEach var="c" items="${categories}">
