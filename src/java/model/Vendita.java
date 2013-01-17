@@ -8,32 +8,38 @@ import java.sql.Date;
  * @author Damiano
  */
 public class Vendita implements Serializable{
-    private Integer id_vendita;
-    private Integer id_compratore;
-    private Integer id_prodotto;
+    private int id_vendita;
+    private int id_compratore;
+    private int id_prodotto;
     private Date data_vendita;
-    private Float prezzo_finale;
-    private Float prezzo_spedizione;
-    private Float tasse_vendita;
+    private float prezzo_finale;
+    private float prezzo_spedizione;
+    private float tasse_vendita;
+    private String nome_prodotto;
 
     /**
      * @return the id_vendita
      */
-    public Integer getId_vendita() {
+    public int getId_vendita() {
         return id_vendita;
     }
 
-    /**
-     * @param id_vendita the id_vendita to set
-     */
+
     public void setId_vendita(Integer id_vendita) {
         this.id_vendita = id_vendita;
     }
+    
+        public String getNome_Prodotto() {
+        return nome_prodotto;
+    }
 
-    /**
-     * @return the id_prodotto
-     */
-    public Integer getId_prodotto() {
+
+    public void setNome_Prodotto(String nome_prodotto) {
+        this.nome_prodotto = nome_prodotto;
+    }
+
+
+    public int getId_prodotto() {
         return id_prodotto;
     }
 
@@ -61,7 +67,7 @@ public class Vendita implements Serializable{
     /**
      * @return the prezzo_finale
      */
-    public Float getPrezzo_finale() {
+    public float getPrezzo_finale() {
         return prezzo_finale;
     }
 
@@ -75,7 +81,7 @@ public class Vendita implements Serializable{
     /**
      * @return the prezzo_spedizione
      */
-    public Float getPrezzo_spedizione() {
+    public float getPrezzo_spedizione() {
         return prezzo_spedizione;
     }
 
@@ -89,7 +95,7 @@ public class Vendita implements Serializable{
     /**
      * @return the tasse_vendita
      */
-    public Float getTasse_vendita() {
+    public float getTasse_vendita() {
         return tasse_vendita;
     }
 
@@ -103,7 +109,7 @@ public class Vendita implements Serializable{
     /**
      * @return the id_utente
      */
-    public Integer getId_compratore() {
+    public int getId_compratore() {
         return id_compratore;
     }
 

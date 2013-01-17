@@ -43,17 +43,32 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>Prodotto</th>
-                    <th>Data</th>
-                    <th>Prezzo finale</th>
-                    <th>Prezzo spedizione</th>
-                    <th>Tasse</th>
+                    <th>ID Prodotto</th>
+                    <th>Nome</th>
+                    <th>Descrizione</th>
+                    <th>Quantità</th>
+                    <th>Categoria</th>
+                    <th>Prezzo iniziale</th>
+                    <th>Prezzo minimo</th>
+                    <th>Incremento minimo</th>
+                    <th>Prezzo Spedizione</th>
+                    <th>Scadenza</th>
+                    <th>Immagine</th>
                 </tr>
             </thead>
               <c:forEach var="p" items="${products}">
                     <tr>
                         <td><c:out value="${p.getId_prodotto()}"/></td>
-
+                        <td><c:out value="${p.getNome()}"/></td>
+                        <td><c:out value="${p.getDescrizione()}"/></td>
+                        <td><c:out value="${p.getQuantity()}"/></td>
+                        <td><c:out value="${p.getCategoria()}"/></td>
+                        <td><c:out value="${p.getPrezzo_iniziale()}"/></td>
+                        <td><c:out value="${p.getPrezzo_minimo()}"/></td>
+                        <td><c:out value="${p.getIncremento_minimo()}"/></td>
+                        <td><c:out value="${p.getPrezzo_spedizione()}"/></td>
+                        <td><c:out value="${p.getScadenza()}"/></td>
+                        <td><c:out value="${p.getNome_immagine()}"/></td>
                     </tr>
               </c:forEach>
             <tbody>

@@ -32,6 +32,10 @@
         <servlet-name>RicercaProdotti</servlet-name>
         <servlet-class>servlet.RicercaProdotti</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>StoricoAcquisti</servlet-name>
+        <servlet-class>servlet.StoricoAcquisti</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Logout</servlet-name>
         <url-pattern>/Logout</url-pattern>
@@ -59,6 +63,10 @@
     <servlet-mapping>
         <servlet-name>RicercaProdotti</servlet-name>
         <url-pattern>/RicercaProdotti</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StoricoAcquisti</servlet-name>
+        <url-pattern>/StoricoAcquisti</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

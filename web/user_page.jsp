@@ -1,3 +1,7 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@page contentType="text/html" pageEncoding="UTF-8" import="java.util.*,db.*,model.*"%>
 <jsp:useBean id="user" scope="session" class="model.Utente" />
 <jsp:setProperty name="user" property="*"/>
@@ -17,11 +21,7 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>Prodotto</th>
-                    <th>Data</th>
-                    <th>Prezzo finale</th>
-                    <th>Prezzo spedizione</th>
-                    <th>Tasse</th>
+                    <td>Prodottto>/td>
                 </tr>
             </thead>
             <tbody>
@@ -45,19 +45,7 @@
                 <th>Offerta</th>
             </tr>
         </table>
-        
-        <h3>Aste perse</h3>
-        <table class="table table-striped">
-            <tr>
-                <th>Prodotto</th>
-                <th>Data</th>
-                <th>Offerta</th>
-            </tr>
-        </table>
-        
-        
-        <a class="btn btn-primary" href="addProduct.jsp">Nuovo Prodotto</a>
-        <a class="btn btn-primary" href="#">Cerca Prodotto</a>
+
         </div>
         
     </body>

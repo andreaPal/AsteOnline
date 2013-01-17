@@ -3,7 +3,7 @@
                 <a class="brand" href="#">Aste Online</a>
                 <ul class="nav">
                     <li><a href="Acquisti">Acquisti</a></li>
-                    <li><a href="Storico_Acquisti">Storico Acquisti</a></li>
+                    <li><a href="StoricoAcquisti">Storico Acquisti</a></li>
                     <li><a href="Storico_Aste">Storico Aste Perse</a></li>
                     <li><a href="addProduct.jsp">Vendi</a></li>
                     <li><a href="Logout">Logout</a></li>

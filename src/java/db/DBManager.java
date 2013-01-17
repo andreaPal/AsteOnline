@@ -200,7 +200,7 @@ public class DBManager implements Serializable{
     
     public List<Vendita> getSellsFromBuyer(int id_compratore) throws SQLException{
         List<Vendita> sells = new ArrayList<Vendita>();
-        PreparedStatement stm = con.prepareStatement("SELECT * FROM vendita WHERE id_compratore = ?");
+        PreparedStatement stm = con.prepareStatement("SELECT * FROM (asteonline.vendita INNER JOIN asteonline.prodotto ON vendita.id_prodotto = prodotto.id_prodotto) WHERE id_compratore = ?");
         stm.setInt(1, id_compratore);
         
         try{
@@ -215,6 +215,7 @@ public class DBManager implements Serializable{
                     vendita.setPrezzo_finale(rs.getFloat("prezzo_finale"));
                     vendita.setPrezzo_spedizione(rs.getFloat("prezzo_spedizione"));
                     vendita.setTasse_vendita(rs.getFloat("tasse_vendita"));
+                    vendita.setNome_Prodotto(rs.getString("nome"));
                     sells.add(vendita);
                 }
             } finally{
@@ -283,4 +284,6 @@ public class DBManager implements Serializable{
         }
         return historicals;
     }
+
+
 }
