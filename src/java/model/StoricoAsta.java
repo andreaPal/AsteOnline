@@ -17,7 +17,16 @@ public class StoricoAsta implements Serializable{
     private Integer id_utente;
     private Date data_offerta;
     private Float offerta;
+    private String nome_prodotto;
 
+    public String getNome_Prodotto() {
+        return nome_prodotto;
+    }
+
+
+    public void setNome_Prodotto(String nome_prodotto) {
+        this.nome_prodotto = nome_prodotto;
+    }
     /**
      * @return the id_storico
      */

@@ -200,7 +200,7 @@ public class DBManager implements Serializable{
     
     public List<Vendita> getSellsFromBuyer(int id_compratore) throws SQLException{
         List<Vendita> sells = new ArrayList<Vendita>();
-        PreparedStatement stm = con.prepareStatement("SELECT * FROM vendita WHERE id_compratore = ?");
+        PreparedStatement stm = con.prepareStatement("SELECT * FROM (asteonline.vendita INNER JOIN asteonline.prodotto ON vendita.id_prodotto = prodotto.id_prodotto) WHERE id_compratore = ?");
         stm.setInt(1, id_compratore);
         
         try{
@@ -215,6 +215,7 @@ public class DBManager implements Serializable{
                     vendita.setPrezzo_finale(rs.getFloat("prezzo_finale"));
                     vendita.setPrezzo_spedizione(rs.getFloat("prezzo_spedizione"));
                     vendita.setTasse_vendita(rs.getFloat("tasse_vendita"));
+                    vendita.setNome_Prodotto(rs.getString("nome"));
                     sells.add(vendita);
                 }
             } finally{
@@ -283,4 +284,58 @@ public class DBManager implements Serializable{
         }
         return historicals;
     }
+  public List<StoricoAsta> getHistoricalFromUser(int id_user) throws SQLException{
+        List<StoricoAsta> historicals = new ArrayList<StoricoAsta>();
+        PreparedStatement stm = con.prepareCall("SELECT * FROM (storico_asta INNER JOIN prodotto ON storico_asta.id_prodotto = prodotto.id_prodotto) WHERE id_utente = ?");
+        stm.setInt(1,id_user);
+        
+        try{
+            ResultSet rs = stm.executeQuery();
+            try{
+                while(rs.next()){
+                    StoricoAsta historical = new StoricoAsta();
+                    historical.setId_storico(rs.getInt("id_storico"));
+                    historical.setId_prodotto(rs.getInt("id_prodotto"));
+                    historical.setData_offerta(rs.getDate("data_offerta"));
+                    historical.setOfferta(rs.getFloat("offerta"));
+                    historical.setNome_Prodotto(rs.getString("nome"));
+                    historicals.add(historical);
+                }
+            }finally{
+                rs.close();
+            }
+        }finally{
+            stm.close();
+        }
+        return historicals;
+    }
+  
+        public List<Vendita> getWinFromUser(int id_user) throws SQLException{
+        List<Vendita> wins = new ArrayList<Vendita>();
+        PreparedStatement stm = con.prepareCall("SELECT * FROM (vendita INNER JOIN prodotto ON vendita.id_prodotto = prodotto.id_prodotto) WHERE id_compratore = ?");
+        stm.setInt(1,id_user);
+        
+        try{
+            ResultSet rs = stm.executeQuery();
+            try{
+                while(rs.next()){
+                    Vendita vendita = new Vendita();
+                    vendita.setId_vendita(rs.getInt("id_vendita"));
+                    vendita.setId_prodotto(rs.getInt("id_prodotto"));
+                    vendita.setData_vendita(rs.getDate("data"));
+                    vendita.setPrezzo_finale(rs.getFloat("prezzo_finale"));
+                    vendita.setPrezzo_spedizione(rs.getFloat("prezzo_spedizione"));
+                    vendita.setTasse_vendita(rs.getFloat("tasse_vendita"));
+                    vendita.setNome_Prodotto(rs.getString("nome"));
+                    wins.add(vendita);
+                }
+            } finally{
+                rs.close();
+            }
+        } finally {
+            stm.close();
+        }
+        return wins;
+    }
+
 }

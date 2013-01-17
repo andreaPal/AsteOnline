@@ -15,32 +15,34 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Prodotto;
+import model.Vendita;
 
 /**
  *
  * @author andrea
  */
-public class Acquisti extends HttpServlet {
+public class StoricoVendite extends HttpServlet {
 
     private DBManager manager;
+    private int id_compratore=1;
     @Override
     public void init() throws ServletException {
       this.manager = (DBManager)super.getServletContext().getAttribute("dbmanager");
     }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            List<Prodotto> products = manager.getProducts();
-            request.setAttribute("products", products);
-            request.getRequestDispatcher("acquisti.jsp").forward(request, response);
+            List<Vendita> sells = manager.getSells();
+            request.setAttribute("sells", sells);
+            request.getRequestDispatcher("storico_vendite.jsp").forward(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(Acquisti.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-
+   
     @Override
     public String getServletInfo() {
         return "Short description";

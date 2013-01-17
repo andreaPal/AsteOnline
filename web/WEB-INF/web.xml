@@ -28,6 +28,34 @@
         <servlet-name>Acquisti</servlet-name>
         <servlet-class>servlet.Acquisti</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RicercaProdotti</servlet-name>
+        <servlet-class>servlet.RicercaProdotti</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>StoricoAcquisti</servlet-name>
+        <servlet-class>servlet.StoricoAcquisti</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>User_Page</servlet-name>
+        <servlet-class>servlet.User_Page</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Admin_Page</servlet-name>
+        <servlet-class>servlet.Admin_Page</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>offerta_prodotto</servlet-name>
+        <servlet-class>servlet.offerta_prodotto</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ListaAste</servlet-name>
+        <servlet-class>servlet.ListaAste</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>StoricoVendite</servlet-name>
+        <servlet-class>servlet.StoricoVendite</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Logout</servlet-name>
         <url-pattern>/Logout</url-pattern>
@@ -52,6 +80,34 @@
         <servlet-name>Acquisti</servlet-name>
         <url-pattern>/Acquisti</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RicercaProdotti</servlet-name>
+        <url-pattern>/RicercaProdotti</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StoricoAcquisti</servlet-name>
+        <url-pattern>/StoricoAcquisti</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>User_Page</servlet-name>
+        <url-pattern>/User_Page</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Admin_Page</servlet-name>
+        <url-pattern>/Admin_Page</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>offerta_prodotto</servlet-name>
+        <url-pattern>/offerta_prodotto</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListaAste</servlet-name>
+        <url-pattern>/ListaAste</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StoricoVendite</servlet-name>
+        <url-pattern>/StoricoVendite</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
@@ -64,4 +120,5 @@
         <param-name>dburl</param-name>
         <param-value>jdbc:mysql://localhost:3306/asteonline?zeroDateTimeBehavior=convertToNull</param-value>
     </context-param>
+
 </web-app>
