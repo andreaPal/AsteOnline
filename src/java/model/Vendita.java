@@ -55,6 +55,7 @@ public class Vendita implements Serializable{
      */
     public Date getData_vendita() {
         return data_vendita;
+       
     }
 
     /**

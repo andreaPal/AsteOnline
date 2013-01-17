@@ -30,10 +30,10 @@ public class Login extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         if (session.getAttribute("utente") != null){
-          response.sendRedirect(request.getContextPath() + "/user_page.jsp");
+          response.sendRedirect(request.getContextPath() + "/User_Page");
           return;
         } else if (session.getAttribute("admin") != null){
-          response.sendRedirect(request.getContextPath() + "/admin_page.jsp");
+          response.sendRedirect(request.getContextPath() + "/Admin_Page");
           return;
         }
     }
@@ -78,12 +78,12 @@ public class Login extends HttpServlet {
         } else if ("user".equals(utente.getRuolo())) {
                 HttpSession session = request.getSession(true);
                 session.setAttribute("user", utente);
-                response.sendRedirect(request.getContextPath() + "/user_page.jsp");
+                response.sendRedirect(request.getContextPath() + "/User_Page");
             }
             else if ("admin".equals(utente.getRuolo())) {                 
                 HttpSession session = request.getSession(true);
                 session.setAttribute("admin", utente);
-                response.sendRedirect(request.getContextPath() + "/admin_page.jsp");
+                response.sendRedirect(request.getContextPath() + "/Admin_Page");
             }        
         
         

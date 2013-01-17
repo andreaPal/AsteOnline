@@ -9,11 +9,11 @@
         <title>Admin Page</title>
     </head>
     <body>
-        <%@ include file="headerlogin.jsp" %>
+        <%@ include file="header_admin.jsp" %>
         <h1>Benvenuto <%= admin.getNome()%></h1>
         
         <div class="container well">
-        <h3>Aste correnti</h3>
+        <h3>Top venditori per fatturato</h3>
         <table class="table table-bordered">
             <tr>
                 <th>Prodotto</th>
@@ -26,9 +26,18 @@
             </tr>
         </table>
         
-        <h3>Vendite effettuate</h3>
-        <h3>Top venditori per fatturato</h3>
-        <h3>Top acquirenti per fatturato</h3>
+       <h3>Top acquirenti per fatturato</h3>
+        <table class="table table-bordered">
+            <tr>
+                <th>Prodotto</th>
+                <th>Quantit&agrave</th>
+                <th>Categoria</th>
+                <th>Prezzo iniziale</th>
+                <th>Prezzo corrente</th>
+                <th>Spedizione</th>
+                <th>Scadenza</th>
+            </tr>
+        </table>
         </div>
     </body>
 </html>

@@ -54,6 +54,7 @@
                     <th>Prezzo Spedizione</th>
                     <th>Scadenza</th>
                     <th>Immagine</th>
+                    <th>Offerta</th>
                 </tr>
             </thead>
               <c:forEach var="p" items="${products}">
@@ -69,6 +70,12 @@
                         <td><c:out value="${p.getPrezzo_spedizione()}"/></td>
                         <td><c:out value="${p.getScadenza()}"/></td>
                         <td><c:out value="${p.getNome_immagine()}"/></td>
+                        <td>
+                            <form name="form_offerta" action="offerta_prodotto" method="POST">
+                                Offerta: <input type="text" name="offerta">
+                                <input type="submit" value="Submit">
+                            </form></form>
+                        </td>
                     </tr>
               </c:forEach>
             <tbody>
