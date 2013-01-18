@@ -17,20 +17,25 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
  */
 public class CreateExcel {
     
-    private void createExcel(ArrayList<Vendita> list) throws FileNotFoundException, IOException{
+    public void createExcel(ArrayList<Vendita> list) throws FileNotFoundException, IOException{
         HSSFWorkbook wb = new HSSFWorkbook();
         HSSFSheet sheet = wb.createSheet("Sheet");
-        HSSFRow row = null;
-        HSSFCell cell = null;
+        HSSFRow row;
+        HSSFCell cell;
+        HSSFCell cell2;
         
-        for(int rowsNumber = 0; rowsNumber < list.size() ; rowsNumber++){
-            row = sheet.createRow(rowsNumber);
-            for(int cellsNumber = 0; cellsNumber < 2; cellsNumber++){
-                cell = row.createCell(0);
-                cell.setCellValue(0);
-                cell.setCellValue(0);
+        for (Vendita v : list){
+            row = sheet.createRow(list.size());            
+            for(int cellsNumber = 0; cellsNumber < 1; cellsNumber++){
+                cell = row.createCell(cellsNumber);
+                cell.setCellValue(v.getId_compratore());                
+            }
+            for(int cellsNumber = 1; cellsNumber < 2; cellsNumber++){
+                cell2 = row.createCell(cellsNumber);
+                cell2.setCellValue(v.getTasse_vendita());
             }
         }
+        
         FileOutputStream fileOut = new FileOutputStream("tasse_utenti.xls");
         wb.write(fileOut);
         fileOut.close();                
