@@ -112,9 +112,9 @@ public class AddProduct extends HttpServlet {
 
         String descrizione = request.getParameter("descrizione");
         String categoria = request.getParameter("categoria");
-        
-        String initial_price = request.getParameter("prezzo_iniziale");
-        
+        System.out.println("CATEGORIA =============> " + categoria);
+        String initial_price = request.getParameter("initial_price");
+        System.out.println("INITIAL PRICE =============> " + initial_price);
         if(!"".equals(initial_price) || initial_price != null){
             try {
                 prezzo_iniziale = Float.parseFloat(initial_price);

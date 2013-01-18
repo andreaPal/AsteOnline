@@ -15,33 +15,30 @@
                 var nome=document.forms["addProduct"]["nome"].value;
                 var quantity=document.forms["addProduct"]["quantity"].value;
                 var descrizione=document.forms["addProduct"]["descrizione"].value;
-                var categoria=document.forms["addProduct"]["categoria"].value;
-                var prezzo_iniziale=document.forms["addProduct"]["prezzo_iniziale"].value;
+                var prezzo_iniziale=document.forms["addProduct"]["initial_price"].value;
                 var prezzo_min=document.forms["addProduct"]["prezzo_min"].value;
                 var incremento_minimo=document.forms["addProduct"]["incremento_minimo"].value;
                 var prezzo_spedizione=document.forms["addProduct"]["prezzo_spedizione"].value;
                 var scadenza=document.forms["addProduct"]["scadenza"].value;
                 
                 if(nome==null || nome=="" || quantity==null || quantity=="" || descrizione==null 
-                    || descrizione=="" || categoria==null || categoria=="" || prezzo_iniziale==null
-                    || prezzo_iniziale=="" || prezzo_min==null || prezzo_min=="" || incremento_minimo==null 
-                    || incremento_minimo=="" || prezzo_spedizione==null || prezzo_spedizione=="" 
-                    || scadenza==null || scadenza=="")
+                    || descrizione=="" || prezzo_iniziale==null || prezzo_iniziale=="" || prezzo_min==null 
+                    || prezzo_min=="" || incremento_minimo==null || incremento_minimo=="" || prezzo_spedizione==null 
+                    || prezzo_spedizione=="" || scadenza==null || scadenza=="")
                 {
                     if($('#flash_error').length == 0){
                     $('#addProductForm').prepend('<div id="flash_error" class="alert alert-error">I campi username/password non devono essere vuoti!</div>');
-                    //$('#flash_error').delay(2000).fadeOut('<div id="flash_error" class="alert alert-error">I campi username/password non devono essere vuoti!</div>');
                     }
                     return false;
                 }
-                return true;
+                // return true;
             }
         </script>
     </head>
     <body>
         <%@ include file="headerlogin.jsp" %>
         <div id="addProductForm" class="container well">
-            <form enctype="multipart/form-data" class="form-signin" name="addProduct" action="AddProduct" method="POST" onsubmit="return validateAddProductForm()">
+            <form class="form-signin" name="addProduct" action="AddProduct" method="POST" onsubmit="return validateAddProductForm()">
                 <h2 class="form-signin-heading">Nuovo Prodotto</h2>
                 <table>
                     <tr>
@@ -61,7 +58,7 @@
                                     </select> </td> 
                     </tr>
                     <tr>
-                        <td>Prezzo iniziale: </td><td> <input name="prezzo_iniziale" type="text" /> </td> 
+                        <td>Prezzo iniziale: </td><td> <input name="initial_price" type="text" /> </td> 
                     </tr>
                     <tr>
                         <td>Prezzo minimo: </td><td> <input name="prezzo_min" type="text" /> </td> 
@@ -79,7 +76,7 @@
                         <td>Scegli un'immagine: </td><td> <input type="file" name="img"> </td> 
                     </tr>
                 </table>
-                <br/>
+                
                 <input class="btn btn-primary" type="submit" value="Aggiungi" />
                 <input class="btn" type="reset" value="Reset"/>
             </form>
