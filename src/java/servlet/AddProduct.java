@@ -68,7 +68,7 @@ public class AddProduct extends HttpServlet {
     try {
         HttpSession session = request.getSession(false);
         if (session==null || session.getAttribute("user") == null) {
-            response.sendRedirect(request.getContextPath() + "/addProduct.jsp");
+            response.sendRedirect(request.getContextPath() + "/login.jsp");
         }
         
         // String immagine = request.getParameter("img");
@@ -109,15 +109,22 @@ public class AddProduct extends HttpServlet {
         String categoria = request.getParameter("categoria");
         
         String initial_price = request.getParameter("prezzo_iniziale");
-        String initial_price_trim = initial_price.trim();
+        //String initial_price_trim = initial_price.trim();
+        
+        //debugging
+        System.out.println("nome====>>>>"+nome);
+        String min_price = request.getParameter("prezzo_min");
+        System.out.println("min_price====>>>>"+min_price);
+        //debugging
+        
         float prezzo_iniziale = 0;
         try {
-            prezzo_iniziale = Float.parseFloat(initial_price_trim);
+            prezzo_iniziale = Float.parseFloat(initial_price);
         } catch (NumberFormatException e) {
                     session.setAttribute("message", "Input prezzo iniziale errato");
         }
 
-        String min_price = request.getParameter("prezzo_min");
+        //String min_price = request.getParameter("prezzo_min");
         float prezzo_minimo = 0;
         try {
             prezzo_minimo = Float.parseFloat(min_price);

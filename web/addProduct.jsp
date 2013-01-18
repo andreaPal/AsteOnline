@@ -68,9 +68,7 @@
                     <tr>
                         <td>Scadenza: </td><td> <input name="scadenza" placeholder="dd/MM/yyyy HH:mm:ss" type="text" /> </td> 
                     </tr>
-                    <tr>
-                        <td>Scegli un'immagine: </td><td> <input type="file" name="img"> </td> 
-                    </tr>
+
                 </table>
                 <br/>
                 <input class="btn btn-primary" type="submit" value="Aggiungi" />

@@ -31,16 +31,10 @@ public class Registration extends HttpServlet {
    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
-        HttpSession session = request.getSession(false);
-        if (session==null || session.getAttribute("utente") == null) {
-            response.sendRedirect(request.getContextPath());
-            return;
-        }       
-        
+            throws ServletException, IOException {     
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+        System.out.println(username);
         String nome = request.getParameter("nome");
         String città = request.getParameter("city");
         String indirizzo = request.getParameter("indirizzo");
@@ -49,10 +43,10 @@ public class Registration extends HttpServlet {
         
         try {
             manager.aggiungiUtente(username, password, nome, città, indirizzo, email, data_registrazione);
-            response.sendRedirect("user_page.jsp");
         } catch (SQLException ex) {
             Logger.getLogger(Registration.class.getName()).log(Level.SEVERE, null, ex);
         }     
+        request.getRequestDispatcher("user_page.jsp").forward(request, response);
 
         
         
