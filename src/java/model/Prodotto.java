@@ -3,10 +3,6 @@ package model;
 import java.io.Serializable;
 import java.sql.Date;
 
-/**
- *
- * @author Damiano
- */
 public class Prodotto implements Serializable{
     private Integer id_prodotto;
     private Integer id_venditore;
@@ -16,11 +12,20 @@ public class Prodotto implements Serializable{
     private String categoria;
     private float prezzo_iniziale;
     private float prezzo_minimo;
+    private float prezzo_attuale;
     private float incremento_minimo;
     private String nome_immagine;
     private float prezzo_spedizione;
     private Date scadenza;
 
+    
+    public float getPrezzo_attuale() {
+        return prezzo_attuale;
+    }
+
+    public void setPrezzo_attuale(float prezzo_attuale) {
+        this.prezzo_attuale = prezzo_attuale;
+    }
     /**
      * @return the id
      */

@@ -56,6 +56,10 @@
         <servlet-name>StoricoVendite</servlet-name>
         <servlet-class>servlet.StoricoVendite</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ListaAsteDeleted</servlet-name>
+        <servlet-class>servlet.ListaAsteDeleted</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Logout</servlet-name>
         <url-pattern>/Logout</url-pattern>
@@ -108,6 +112,10 @@
         <servlet-name>StoricoVendite</servlet-name>
         <url-pattern>/StoricoVendite</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListaAsteDeleted</servlet-name>
+        <url-pattern>/ListaAsteDeleted</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
@@ -120,5 +128,4 @@
         <param-name>dburl</param-name>
         <param-value>jdbc:mysql://localhost:3306/asteonline?zeroDateTimeBehavior=convertToNull</param-value>
     </context-param>
-
 </web-app>

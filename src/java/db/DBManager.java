@@ -245,6 +245,7 @@ public class DBManager implements Serializable{
                     product.setCategoria(rs.getString("categoria.nome"));
                     product.setPrezzo_iniziale(rs.getFloat("prezzo_iniziale"));
                     product.setPrezzo_minimo(rs.getFloat("prezzo_minimo"));
+                    product.setPrezzo_attuale(rs.getFloat("prezzo_attuale"));
                     product.setPrezzo_spedizione(rs.getFloat("prezzo_spedizione"));
                     product.setIncremento_minimo(rs.getFloat("incremento_minimo"));
                     product.setScadenza(rs.getDate("scadenza"));
@@ -392,6 +393,13 @@ public class DBManager implements Serializable{
             stm.close();
         }
         return categories;
+    }
+    
+    public void deleteProduct(int id_prodotto) throws SQLException {
+         PreparedStatement stm = con.prepareStatement(
+                "DELETE FROM prodotto WHERE id_prodotto = ?");
+         stm.setInt(1, id_prodotto);
+         stm.executeUpdate();
     }
 
 }

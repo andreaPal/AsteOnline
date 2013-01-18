@@ -36,10 +36,10 @@ public class StoricoVendite extends HttpServlet {
         try {
             List<Vendita> sells = manager.getSells();
             request.setAttribute("sells", sells);
-            request.getRequestDispatcher("storico_vendite.jsp").forward(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(Acquisti.class.getName()).log(Level.SEVERE, null, ex);
         }
+        request.getRequestDispatcher("storico_vendite.jsp").forward(request, response);
     }
 
    
