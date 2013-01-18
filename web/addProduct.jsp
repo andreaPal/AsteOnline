@@ -41,7 +41,7 @@
     <body>
         <%@ include file="headerlogin.jsp" %>
         <div id="addProductForm" class="container well">
-            <form enctype="multipart/form-data" class="form-signin" name="addProduct" action="AddProduct" method="POST" onsubmit="return validateAddProductForm()">
+            <form class="form-signin" name="addProduct" action="AddProduct" method="POST" onsubmit="return validateAddProductForm()">
                 <h2 class="form-signin-heading">Nuovo Prodotto</h2>
                 <table>
                     <tr>
@@ -56,7 +56,7 @@
                     <tr>
                         <td>Categoria: </td><td> <select name="category">
                                         <c:forEach var="c" items="${categories}">                   
-                                            <option value="<c:out value="${c.getName()}"/>"><c:out value="${c.getName()}"/></option>
+                                            <option value="<c:out value="${c.getId_categoria()}"/>"><c:out value="${c.getName()}"/></option>
                                         </c:forEach>
                                     </select> </td> 
                     </tr>

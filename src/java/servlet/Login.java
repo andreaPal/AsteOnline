@@ -51,8 +51,7 @@ public class Login extends HttpServlet {
         String username = request.getParameter("username");
         
         
-        String password = request.getParameter("password"); 
-        System.out.println("higvergergehih"+username);
+        String password = request.getParameter("password");
         
         Utente utente;
       
@@ -65,7 +64,6 @@ public class Login extends HttpServlet {
             } else if ("user".equals(utente.getRuolo())) {
               HttpSession session = request.getSession(true);
               session.setAttribute("user", utente);
-              System.out.println("higvergergehihSERVLET="+utente.getRuolo());
               response.sendRedirect(request.getContextPath() + "/User_Page");
             }
             else if ("admin".equals(utente.getRuolo())) {                 

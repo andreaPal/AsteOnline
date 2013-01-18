@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Utente;
+import org.json.simple.JSONObject;
 
 /**
  *
@@ -46,6 +47,8 @@ public class offerta_prodotto extends HttpServlet {
         Date date = new Date();
         java.sql.Date sqlDate = new java.sql.Date(date.getTime());
         
+        JSONObject json_message = new JSONObject();
+        
         try {
             incremento = manager.checkIncremento(offerta,id_product);
             miglior_offerente = manager.checkMiglioreOfferente(offerta,id_product);
@@ -54,14 +57,27 @@ public class offerta_prodotto extends HttpServlet {
             if (incremento && miglior_offerente) {
                 manager.aggiungiOfferta(id_compratore, Integer.parseInt(id_product), sqlDate, Float.parseFloat(offerta));
                 manager.updatePrezzoAttuale(Integer.parseInt(id_product),Float.parseFloat(offerta));
+                //SEI IL MIGLIORE OFFERENTE
+                json_message.put("value", "success");
+                json_message.put("message", "Sei il miglior offerente :)");
+            } else if (!incremento && miglior_offerente){
+                //LA TUA E' LA MIGLIORE OFFERTA MA NON HAI INCREMENTATO ABBASTANZA L'OFFERTA
+                json_message.put("value", "warning");
+                json_message.put("message","La tua e' la milgiore offerta ma non hai l'hai incrementata abbastanza!");
+            } else if (!incremento && !miglior_offerente){
+                //LA TUA OFFERTA NON E' SUFFICIENTE
+                json_message.put("value", "warning");
+                json_message.put("message", "La tua offerta non e' sufficiente!");
             }
         } catch (SQLException ex) {
             Logger.getLogger(offerta_prodotto.class.getName()).log(Level.SEVERE, null, ex);
+            json_message.put("value", "error");
+            json_message.put("message", "Errore nella richiesta!");
         }
 
-        
-        request.getRequestDispatcher("offerta.jsp").forward(request, response);
-
+        response.setContentType("application/json");
+        System.out.println(json_message.toString());
+        response.getWriter().print(json_message.toString());
     }
 
     /**

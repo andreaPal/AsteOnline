@@ -146,10 +146,10 @@ public class DBManager implements Serializable{
     
     }
     public void aggiungiProdotto(int id_venditore, String nome, int quantity, String descrizione, 
-            String categoria, float prezzo_iniziale, float prezzo_minimo, float incremento_minimo,
+            int categoria, float prezzo_iniziale, float prezzo_minimo, float incremento_minimo,
             float prezzo_spedizione, Date scadenza, String nome_immagine) throws SQLException{
         PreparedStatement stm = con.prepareStatement("INSERT INTO prodotto(id_venditore,nome,descrizione,"
-                + "quantity,categoria,prezzo_iniziale,prezzo_minimo,incremento_minimo,"
+                + "quantity,categoria_id,prezzo_iniziale,prezzo_minimo,incremento_minimo,"
                 + "prezzo_spedizione,scadenza,nome_immagine) VALUES(?,?,?,?,?,?,?,?,?,?,?)");
         
         //String nome_immagine = "default.gif";
@@ -159,7 +159,7 @@ public class DBManager implements Serializable{
             stm.setString(2, nome);
             stm.setString(3, descrizione);
             stm.setInt(4, quantity);            
-            stm.setString(5, categoria);
+            stm.setInt(5, categoria);
             stm.setFloat(6, prezzo_iniziale);
             stm.setFloat(7, prezzo_minimo);
             stm.setFloat(8, incremento_minimo);

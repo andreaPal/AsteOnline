@@ -83,6 +83,8 @@
     <servlet>
         <servlet-name>Storico_Aste</servlet-name>
         <servlet-class>servlet.Storico_Aste</servlet-class>
+        </servlet>
+        <servlet>
         <servlet-name>ListaCategorie</servlet-name>
         <servlet-class>servlet.ListaCategorie</servlet-class>
     </servlet>
@@ -149,6 +151,8 @@
     <servlet-mapping>
         <servlet-name>Storico_Aste</servlet-name>
         <url-pattern>/Storico_Aste</url-pattern>
+        </servlet-mapping>
+        <servlet-mapping>
         <servlet-name>ListaCategorie</servlet-name>
         <url-pattern>/ListaCategorie</url-pattern>
     </servlet-mapping>

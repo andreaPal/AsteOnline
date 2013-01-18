@@ -12,10 +12,15 @@
         <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
         <title>Acquisti Page</title>
         
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-        <script>
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+        <script type="text/javascript">
+        
             $(document).ready(function() {
-
+                $(".offerta_button").live("click", function(){
+                    ajax_offer($(this).attr("data-pro"), $(this).parent().find("input:first-child").val());
+                });
+                
                 $("#search_button").click(function(){
                     ajax_search();
                 });
@@ -46,10 +51,10 @@
                             tbody_products += "<td>"+ json[i]['delivery_price'] +"</td>";
                             tbody_products += "<td>"+ json[i]['deadline'] +"</td>";
                             tbody_products += "<td>"+ json[i]['image'] +"</td>";
-                            tbody_products += "<td><form name='form_offerta' action=\"offerta_prodotto\" method=\"POST\"><input type=\"hidden\" name=\"id_product\" value=\"<c:out value="${p.getId_prodotto()}"/>\" >\n\
-                                                      Offerta: <input style=\"width:20px\" type=\"text\" name=\"offerta\">\n\
-                                                      <input type=\"submit\" value=\"Submit\">\n\
-                                                    </form></td></tr>"
+                            tbody_products += "<td><form name=\"form_offerta\" onsubmit=\"return false;\">"
+                                                    + "Offerta: <input type=\"text\" style=\"width:45px\" name=\"offerta\">"
+                                                    + "<input type=\"submit\" class=\"btn offerta_button\" data-pro=\""+ json[i]['id_product'] +"\">"
+                                                    + "</form></td></tr>";
                         }
                         $("#products_table").html(tbody_products);
                       },
@@ -59,11 +64,32 @@
                       }
                     });
             }
+            
+            function ajax_offer(id_product, offerta) {
+                $.ajax({
+                      type: "POST",
+                      url: "/AsteOnline/offerta_prodotto",
+                      data: "offerta=" + offerta + "&id_product=" + id_product,
+                      dataType: "json",
+                      success: function(json)
+                      {
+                        $("#flash_offer").remove();
+                        var flash='<div id="flash_offer" class="alert alert-'+json["value"]+'">'+json["message"]+'</div>';
+                        $('#container').prepend(flash);  
+                      },
+                      error: function()
+                      {
+                        $("#flash_offer").remove();
+                        var flash='<div id="flash_offer" class="alert alert-error">Campo offerta vuoto!</div>';
+                        $('#container').prepend(flash);
+                      }
+                    });
+            }
         </script>
     </head>
     <body>
         <%@ include file="headerlogin.jsp" %>
-                <div class="container well">
+                <div id="container" class="container well">
         <h3>Acquisti</h3>
         <table style="margin-left:-13px;" class="table table-bordered">
             <thead>
@@ -97,11 +123,10 @@
                         <td><c:out value="${p.getScadenza()}"/></td>
                         <td><c:out value="${p.getNome_immagine()}"/></td>
                         <td>
-                            <form name="form_offerta" action="offerta_prodotto" method="POST">
-                                Offerta: <input type="text" style="width:20px" name="offerta">
-                                <input type="hidden" name="id_product" value="<c:out value="${p.getId_prodotto()}"/>" >
-                                <input type="submit" value="Submit">
-                            </form></form>
+                            <form name="form_offerta" onsubmit="return false;">
+                                Offerta: <input type="text" style="width:45px" name="offerta">
+                                <input type="submit" class="btn offerta_button" data-pro="<c:out value="${p.getId_prodotto()}"/>">
+                            </form>
                         </td>
                     </tr>
               </c:forEach>

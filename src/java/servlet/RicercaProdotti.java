@@ -71,7 +71,6 @@ public class RicercaProdotti extends HttpServlet {
             }
             
             response.setContentType("application/json");
-            System.out.println(json_products.toString());
             response.getWriter().print(json_products.toString());
             //response.getWriter().print("{'si':'prova'}".toString());
         } catch (SQLException ex) {

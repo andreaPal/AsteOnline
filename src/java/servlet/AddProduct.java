@@ -73,36 +73,13 @@ public class AddProduct extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/login.jsp");
         }
         
-        // String immagine = request.getParameter("img");
-        
-        /* if(nome.isEmpty() || quantity.isEmpty() || descrizione.isEmpty() ||
-                categoria.isEmpty() || initial_price.isEmpty() ||
-                min_price.isEmpty() || minimum_increment.isEmpty() ||
-                shipping_price.isEmpty() || deadline.isEmpty()){
-            session.setAttribute("message", "I campi non possono essere vuoti!");
-            response.sendRedirect(request.getContextPath() + "/addProduct.jsp");
-            //return;
-        } */
-        
-        /*if(nome == null || quantity == null || descrizione == null || 
-                categoria == null || initial_price == null || min_price == null ||
-                minimum_increment == null || shipping_price == null ||
-                deadline == null){
-            session.setAttribute("message", "I campi non possono essere nulli!");
-        }*/
-        
-        // String dirName = request.getContextPath() + "/web/img";
-        
-        // response.setContentType("text/plain");
-              
         Utente utente = (Utente) session.getAttribute("user");
         if(utente != null){
             id_utente = utente.getId();
         }
-        String nome = request.getParameter("nome");
-        
+        String nome = request.getParameter("nome");        
         String quantity = request.getParameter("quantity");
-        if(!"".equals(quantity)){
+        if(!quantity.equals("")){
            try {
                 quantità = Integer.parseInt(quantity);
             } catch (NumberFormatException e) {
@@ -111,11 +88,11 @@ public class AddProduct extends HttpServlet {
         }
 
         String descrizione = request.getParameter("descrizione");
-        String categoria = request.getParameter("categoria");
+        int categoria = Integer.parseInt(request.getParameter("category"));
         
         String initial_price = request.getParameter("prezzo_iniziale");
         
-        if(!"".equals(initial_price) || initial_price != null){
+        if(!initial_price.equals("") || initial_price != null){
             try {
                 prezzo_iniziale = Float.parseFloat(initial_price);
             } catch (NumberFormatException e) {
@@ -154,6 +131,7 @@ public class AddProduct extends HttpServlet {
         if(!"".equals(deadline)){
             DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
             Date utilDate = (Date) df.parse(deadline);
+            System.out.println(utilDate.toString());
             scadenza = new java.sql.Date(utilDate.getTime());
         }
         /*String dirName = getServletContext().getRealPath("/img");
