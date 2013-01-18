@@ -23,17 +23,18 @@ public class CreateExcel {
         HSSFRow row;
         HSSFCell cell;
         HSSFCell cell2;
+        int i = 0;
         
         for (Vendita v : list){
-            row = sheet.createRow(list.size());            
+            row = sheet.createRow(i);            
             for(int cellsNumber = 0; cellsNumber < 2; cellsNumber++){
                 cell = row.createCell(0);
                 cell2 = row.createCell(1);
                 cell.setCellValue(v.getId_compratore()); 
                 cell2.setCellValue(v.getTasse_vendita());
             }
-            
-        }
+            i++;
+        }        
         
         FileOutputStream fileOut = new FileOutputStream("tasse_utenti.xls");
         wb.write(fileOut);
