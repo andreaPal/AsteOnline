@@ -38,7 +38,7 @@
     <body>
         <%@ include file="headerlogin.jsp" %>
         <div id="addProductForm" class="container well">
-            <form class="form-signin" name="addProduct" action="AddProduct" method="POST" onsubmit="return validateAddProductForm()">
+            <form enctype="multipart/form-data" class="form-signin" name="addProduct" action="AddProduct" method="POST" onsubmit="return validateAddProductForm()">
                 <h2 class="form-signin-heading">Nuovo Prodotto</h2>
                 <table>
                     <tr>
@@ -67,9 +67,12 @@
                     </tr>
                     <tr>
                         <td>Scadenza: </td><td> <input name="scadenza" placeholder="dd/MM/yyyy HH:mm:ss" type="text" /> </td> 
-                    </tr>                    
+                    </tr>
+                    <tr>
+                        <td>Scegli un'immagine: </td><td> <input type="file" name="img"> </td> 
+                    </tr>
                 </table>
-                
+                <br/>
                 <input class="btn btn-primary" type="submit" value="Aggiungi" />
                 <input class="btn" type="reset" value="Reset"/>
             </form>

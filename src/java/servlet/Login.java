@@ -44,11 +44,7 @@ public class Login extends HttpServlet {
             throws ServletException, IOException {
         String username = request.getParameter("username");
         if (username == null || username.trim().isEmpty()) {
-            request.setAttribute("username", "Inserire lo username!");
-            response.sendRedirect(request.getContextPath() + "/login.jsp");
-            return;
-        } else if (!username.matches("\\p{Alnum}+")) {
-            request.setAttribute("username", "Inserire solo caratteri alfanumerici!");
+            request.setAttribute("message", "Inserire lo username!");
             response.sendRedirect(request.getContextPath() + "/login.jsp");
             return;
         }

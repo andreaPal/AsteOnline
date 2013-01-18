@@ -49,7 +49,9 @@
                 var dotpos=email.lastIndexOf(".");
                 if (atpos<1 || dotpos<atpos+2 || dotpos+2>=email.length)
                 {
-                    alert("Inserire un indirizzo email valido!");
+                    if($('#flash_email_error').length == 0){
+                    $('#registrationForm').prepend('<div id="flash_email_error" class="alert alert-error">Inserire un indirizzo email valido!</div>');
+                    }
                     return false;
                 }
                 return true;
