@@ -28,8 +28,7 @@ public class Logout extends HttpServlet {
         
         HttpSession session = request.getSession(false);
         if (session != null) {
-            session.removeAttribute("utente");
-            session.removeAttribute("admin");
+            session.removeAttribute("user");
             session.invalidate();
         }
         request.setAttribute("message", "Logout effettuato con successo");

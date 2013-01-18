@@ -401,5 +401,131 @@ public class DBManager implements Serializable{
          stm.setInt(1, id_prodotto);
          stm.executeUpdate();
     }
+    
+    public List<StoricoAsta> getHistoricalLostFromUser(int id_user) throws SQLException{
+        List<StoricoAsta> historicals = new ArrayList<StoricoAsta>();
+        PreparedStatement stm = con.prepareCall("SELECT * FROM (asteonline.storico_asta INNER JOIN asteonline.vendita ON storico_asta.id_prodotto = vendita.id_prodotto) "
+                                                +"WHERE id_utente <> ? "
+                                                + "GROUP BY ?");
+        stm.setInt(1,id_user);
+        stm.setInt(2,id_user);
+        
+        try{
+            ResultSet rs = stm.executeQuery();
+            try{
+                while(rs.next()){
+                    StoricoAsta historical = new StoricoAsta();
+                    historical.setId_storico(rs.getInt("id_storico"));
+                    historical.setId_prodotto(rs.getInt("id_prodotto"));
+                    historical.setData_offerta(rs.getDate("data_offerta"));
+                    historical.setOfferta(rs.getFloat("offerta"));
+                    historicals.add(historical);
+                }
+            }finally{
+                rs.close();
+            }
+        }finally{
+            stm.close();
+        }
+        return historicals;
+    }
 
+    public boolean checkIncremento(String offerta, String id_product) throws SQLException {
+        PreparedStatement stm = con.prepareStatement(
+                "SELECT * FROM prodotto WHERE id_prodotto = ?");
+        
+            stm.setInt(1, Integer.parseInt(id_product));
+            float incremento=0, prezzo_iniziale =0, prezzo_minimo = 0, offerta_utente =0, prezzo_attuale=0;
+            offerta_utente = Float.parseFloat(offerta);
+            try{
+            ResultSet rs = stm.executeQuery();
+            try{
+                while(rs.next()){
+                    incremento = rs.getFloat("incremento_minimo");
+                    prezzo_iniziale = rs.getFloat("prezzo_iniziale");
+                    prezzo_minimo = rs.getFloat("prezzo_minimo");
+                    prezzo_attuale = rs.getFloat("prezzo_attuale");
+                }
+            }finally{
+                rs.close();
+            }
+        }finally{
+            stm.close();
+        }
+        System.out.println("offerta: "+offerta_utente);
+        System.out.println("prezzo minimo: "+prezzo_minimo);
+
+            if ((offerta_utente>prezzo_minimo)&&(offerta_utente-prezzo_attuale>incremento)) {
+                return true;
+        }
+            else 
+                return false;
+        }
+
+    public boolean checkMiglioreOfferente(String offerta, String id_product) throws SQLException {
+            PreparedStatement stm = con.prepareStatement(
+                "SELECT * FROM prodotto WHERE id_prodotto = ?");
+        
+            stm.setInt(1, Integer.parseInt(id_product));
+            float incremento=0, prezzo_iniziale =0, prezzo_minimo = 0, offerta_utente =0, prezzo_attuale=0;
+            offerta_utente = Float.parseFloat(offerta);
+            try{
+            ResultSet rs = stm.executeQuery();
+            try{
+                while(rs.next()){
+                    incremento = rs.getFloat("incremento_minimo");
+                    prezzo_iniziale = rs.getFloat("prezzo_iniziale");
+                    prezzo_minimo = rs.getFloat("prezzo_minimo");
+                    prezzo_attuale = rs.getFloat("prezzo_attuale");
+                }
+            }finally{
+                rs.close();
+            }
+        }finally{
+            stm.close();
+        }
+        System.out.println("offerta: "+offerta_utente);
+        System.out.println("prezzo minimo: "+prezzo_minimo);
+
+            if ((offerta_utente>prezzo_attuale)) {
+                return true;
+        }
+            else 
+                return false;
+    }
+
+    
+    public void aggiungiOfferta(int id_venditore, int id_prodotto, Date data_offerta, float offerta) throws SQLException{
+        PreparedStatement stm = con.prepareStatement("INSERT INTO storico_asta(id_prodotto, id_utente, data_offerta, offerta) VALUES(?,?,?,?)");
+        
+        //String nome_immagine = "default.gif";
+        
+        try{
+            stm.setInt(1, id_prodotto);
+            stm.setInt(2, id_venditore);
+            stm.setDate(3, data_offerta);
+            stm.setFloat(4, offerta);            
+           
+            stm.executeUpdate();
+        } finally{
+            stm.close();
+        }
+    }
+
+    public void updatePrezzoAttuale(int id_prodotto, float offerta) throws SQLException{
+        
+        PreparedStatement stm = con.prepareStatement("UPDATE prodotto SET prezzo_attuale = ? WHERE id_prodotto = ?");
+        
+        
+        try{
+            
+            stm.setFloat(1, offerta);   
+            stm.setInt(2, id_prodotto);           
+            stm.executeUpdate();
+        } finally{
+            stm.close();
+        }
+    }
 }
+
+

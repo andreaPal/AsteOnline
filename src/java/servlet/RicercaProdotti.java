@@ -58,7 +58,7 @@ public class RicercaProdotti extends HttpServlet {
                     json_product.put("id_product", p.getId_prodotto());
                     json_product.put("name", p.getNome());
                     json_product.put("description", p.getDescrizione());
-                    json_product.put("quantity", Integer.toString(p.getQuantity()));
+                    json_product.put("quantity", p.getQuantity());
                     json_product.put("category", p.getCategoria());
                     json_product.put("init_price", p.getPrezzo_iniziale());
                     json_product.put("min_price", p.getPrezzo_minimo());

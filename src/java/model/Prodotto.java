@@ -1,7 +1,10 @@
 package model;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.text.DateFormat;
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Prodotto implements Serializable{
     private Integer id_prodotto;
@@ -149,7 +152,8 @@ public class Prodotto implements Serializable{
      * @return the scadenza
      */
     public String getRightScadenza() {
-        return scadenza.toString();
+        Format df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+        return df.format(scadenza);
     }
 
     /**

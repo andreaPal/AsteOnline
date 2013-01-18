@@ -28,14 +28,20 @@ public class Login extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
-        if (session.getAttribute("user") != null){
-          response.sendRedirect(request.getContextPath() + "/User_Page");
-          return;
-        } else if (session.getAttribute("admin") != null){
-          response.sendRedirect(request.getContextPath() + "/Admin_Page");
-          return;
+              HttpSession session = request.getSession();
+              Utente utente = (Utente) session.getAttribute("user");
+              
+        if (utente != null){
+            if (utente.getRuolo().equalsIgnoreCase("user"))            
+                response.sendRedirect(request.getContextPath() + "/User_Page");
+            else if (utente.getRuolo().equalsIgnoreCase("admin")) 
+                response.sendRedirect(request.getContextPath() + "/Admin_Page");
+
         }
+        else {
+            request.getRequestDispatcher("login.jsp").forward(request, response);
+        }
+
     }
 
     
@@ -43,20 +49,12 @@ public class Login extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String username = request.getParameter("username");
-        if (username == null || username.trim().isEmpty()) {
-            request.setAttribute("message", "Inserire lo username!");
-            response.sendRedirect(request.getContextPath() + "/login.jsp");
-            return;
-        }
+        
         
         String password = request.getParameter("password"); 
-        if (password == null || password.trim().isEmpty()) {
-            request.setAttribute("password", "Inserire la password");
-            response.sendRedirect(request.getContextPath() + "/login.jsp");
-            return;
-        } 
+        System.out.println("higvergergehih"+username);
         
-        Utente utente = null;
+        Utente utente;
       
         try {
             utente = manager.authenticate(username, password);
@@ -67,11 +65,12 @@ public class Login extends HttpServlet {
             } else if ("user".equals(utente.getRuolo())) {
               HttpSession session = request.getSession(true);
               session.setAttribute("user", utente);
+              System.out.println("higvergergehihSERVLET="+utente.getRuolo());
               response.sendRedirect(request.getContextPath() + "/User_Page");
             }
             else if ("admin".equals(utente.getRuolo())) {                 
               HttpSession session = request.getSession(true);
-              session.setAttribute("admin", utente);
+              session.setAttribute("user", utente);
               response.sendRedirect(request.getContextPath() + "/Admin_Page");
             }
         } catch (SQLException e) {

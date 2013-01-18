@@ -46,7 +46,7 @@
                             tbody_products += "<td>"+ json[i]['delivery_price'] +"</td>";
                             tbody_products += "<td>"+ json[i]['deadline'] +"</td>";
                             tbody_products += "<td>"+ json[i]['image'] +"</td>";
-                            tbody_products += "<td><form name='form_offerta' action=\"offerta_prodotto\" method=\"POST\">\n\
+                            tbody_products += "<td><form name='form_offerta' action=\"offerta_prodotto\" method=\"POST\"><input type=\"hidden\" name=\"id_product\" value=\"<c:out value="${p.getId_prodotto()}"/>\" >\n\
                                                       Offerta: <input style=\"width:20px\" type=\"text\" name=\"offerta\">\n\
                                                       <input type=\"submit\" value=\"Submit\">\n\
                                                     </form></td></tr>"
@@ -99,6 +99,7 @@
                         <td>
                             <form name="form_offerta" action="offerta_prodotto" method="POST">
                                 Offerta: <input type="text" style="width:20px" name="offerta">
+                                <input type="hidden" name="id_product" value="<c:out value="${p.getId_prodotto()}"/>" >
                                 <input type="submit" value="Submit">
                             </form></form>
                         </td>
