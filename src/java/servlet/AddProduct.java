@@ -69,18 +69,8 @@ public class AddProduct extends HttpServlet {
         HttpSession session = request.getSession(false);
         if (session==null || session.getAttribute("user") == null) {
             response.sendRedirect(request.getContextPath() + "/addProduct.jsp");
-            return;
         }
         
-        String nome = request.getParameter("nome");
-        String quantity = request.getParameter("quantity");
-        String descrizione = request.getParameter("descrizione");
-        String categoria = request.getParameter("categoria");
-        String initial_price = request.getParameter("prezzo_iniziale");
-        String min_price = request.getParameter("prezzo_min");
-        String minimum_increment = request.getParameter("incremento_minimo");
-        String shipping_price = request.getParameter("prezzo_spedizione");
-        String deadline = request.getParameter("scadenza");
         // String immagine = request.getParameter("img");
         
         /* if(nome.isEmpty() || quantity.isEmpty() || descrizione.isEmpty() ||
@@ -92,12 +82,12 @@ public class AddProduct extends HttpServlet {
             //return;
         } */
         
-        if(nome == null || quantity == null || descrizione == null || 
+        /*if(nome == null || quantity == null || descrizione == null || 
                 categoria == null || initial_price == null || min_price == null ||
                 minimum_increment == null || shipping_price == null ||
                 deadline == null){
             session.setAttribute("message", "I campi non possono essere nulli!");
-        }
+        }*/
         
         // String dirName = request.getContextPath() + "/web/img";
         
@@ -105,53 +95,60 @@ public class AddProduct extends HttpServlet {
               
         Utente utente = (Utente) session.getAttribute("user");
         id_utente = utente.getId();
+        String nome = request.getParameter("nome");
+        
+        String quantity = request.getParameter("quantity");
         int quantità = 0;
         try {
             quantità = Integer.parseInt(quantity);
         } catch (NumberFormatException e) {
                     session.setAttribute("message", "Input quantit&agrave errato");
-                    return;
         }
 
+        String descrizione = request.getParameter("descrizione");
+        String categoria = request.getParameter("categoria");
+        
+        String initial_price = request.getParameter("prezzo_iniziale");
+        String initial_price_trim = initial_price.trim();
         float prezzo_iniziale = 0;
         try {
-            prezzo_iniziale = Float.parseFloat(initial_price);
+            prezzo_iniziale = Float.parseFloat(initial_price_trim);
         } catch (NumberFormatException e) {
                     session.setAttribute("message", "Input prezzo iniziale errato");
-                    return;
         }
 
+        String min_price = request.getParameter("prezzo_min");
         float prezzo_minimo = 0;
         try {
             prezzo_minimo = Float.parseFloat(min_price);
         } catch (NumberFormatException e) {
                     session.setAttribute("message", "Input prezzo minimo errato");
-                    return;
         }
 
+        String minimum_increment = request.getParameter("incremento_minimo");
         float incremento_minimo = 0;
         try {
             incremento_minimo = Float.parseFloat(minimum_increment);
         } catch (NumberFormatException e) {
                     session.setAttribute("message", "Input incremento minimo errato");
-                    return;
         }
 
+        String shipping_price = request.getParameter("prezzo_spedizione");
         float prezzo_spedizione = 0;
         try {
             prezzo_spedizione = Float.parseFloat(shipping_price);
         } catch (NumberFormatException e) {
                     session.setAttribute("message", "Input prezzo spedizione errato");
-                    return;
         }
 
+        String deadline = request.getParameter("scadenza");
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date utilDate = (Date) df.parse(deadline);
         java.sql.Date scadenza = new java.sql.Date(utilDate.getTime());
         
-        String dirName = getServletContext().getRealPath("/img");
+        /*String dirName = getServletContext().getRealPath("/img");
         UploadFile upload = new UploadFile();
-        upload.uploadFile(request, dirName);
+        upload.uploadFile(request, dirName);*/
         
         
         try {
