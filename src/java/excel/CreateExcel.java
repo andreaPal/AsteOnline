@@ -26,14 +26,13 @@ public class CreateExcel {
         
         for (Vendita v : list){
             row = sheet.createRow(list.size());            
-            for(int cellsNumber = 0; cellsNumber < 1; cellsNumber++){
-                cell = row.createCell(cellsNumber);
-                cell.setCellValue(v.getId_compratore());                
-            }
-            for(int cellsNumber = 1; cellsNumber < 2; cellsNumber++){
-                cell2 = row.createCell(cellsNumber);
+            for(int cellsNumber = 0; cellsNumber < 2; cellsNumber++){
+                cell = row.createCell(0);
+                cell2 = row.createCell(1);
+                cell.setCellValue(v.getId_compratore()); 
                 cell2.setCellValue(v.getTasse_vendita());
             }
+            
         }
         
         FileOutputStream fileOut = new FileOutputStream("tasse_utenti.xls");
