@@ -1,5 +1,8 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-
+<%@page contentType="text/html" pageEncoding="UTF-8" import="java.util.*,db.*,model.*"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -51,7 +54,11 @@
                         <td>Descrizione: </td><td><textarea name="descrizione"></textarea></td>
                     </tr>
                     <tr>
-                        <td>Categoria: </td><td> <input name="categoria" type="text" /> </td> 
+                        <td>Categoria: </td><td> <select name="category">
+                                        <c:forEach var="c" items="${categories}">                   
+                                            <option value="<c:out value="${c.getName()}"/>"><c:out value="${c.getName()}"/></option>
+                                        </c:forEach>
+                                    </select> </td> 
                     </tr>
                     <tr>
                         <td>Prezzo iniziale: </td><td> <input name="prezzo_iniziale" type="text" /> </td> 

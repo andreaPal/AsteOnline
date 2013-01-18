@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package servlet;
 
 import com.oreilly.servlet.MultipartRequest;
@@ -64,6 +60,12 @@ public class AddProduct extends HttpServlet {
     String filename = "";
     String value = "";
     int id_utente = 0;
+    int quantità = 0;
+    float prezzo_iniziale = 0;
+    float prezzo_minimo = 0;
+    float incremento_minimo = 0;
+    float prezzo_spedizione = 0;
+    java.sql.Date scadenza = null;
         
     try {
         HttpSession session = request.getSession(false);
@@ -94,69 +96,69 @@ public class AddProduct extends HttpServlet {
         // response.setContentType("text/plain");
               
         Utente utente = (Utente) session.getAttribute("user");
-        id_utente = utente.getId();
+        if(utente != null){
+            id_utente = utente.getId();
+        }
         String nome = request.getParameter("nome");
         
         String quantity = request.getParameter("quantity");
-        int quantità = 0;
-        try {
-            quantità = Integer.parseInt(quantity);
-        } catch (NumberFormatException e) {
+        if(!"".equals(quantity)){
+           try {
+                quantità = Integer.parseInt(quantity);
+            } catch (NumberFormatException e) {
                     session.setAttribute("message", "Input quantit&agrave errato");
+            }           
         }
 
         String descrizione = request.getParameter("descrizione");
         String categoria = request.getParameter("categoria");
         
         String initial_price = request.getParameter("prezzo_iniziale");
-        //String initial_price_trim = initial_price.trim();
         
-        //debugging
-        System.out.println("nome====>>>>"+nome);
-        String min_price = request.getParameter("prezzo_min");
-        System.out.println("min_price====>>>>"+min_price);
-        //debugging
-        
-        float prezzo_iniziale = 0;
-        try {
-            prezzo_iniziale = Float.parseFloat(initial_price);
-        } catch (NumberFormatException e) {
+        if(!"".equals(initial_price) || initial_price != null){
+            try {
+                prezzo_iniziale = Float.parseFloat(initial_price);
+            } catch (NumberFormatException e) {
                     session.setAttribute("message", "Input prezzo iniziale errato");
+            }
         }
 
-        //String min_price = request.getParameter("prezzo_min");
-        float prezzo_minimo = 0;
-        try {
-            prezzo_minimo = Float.parseFloat(min_price);
-        } catch (NumberFormatException e) {
+        String min_price = request.getParameter("prezzo_min");
+        if(!"".equals(min_price)){
+            try {
+                prezzo_minimo = Float.parseFloat(min_price);
+            } catch (NumberFormatException e) {
                     session.setAttribute("message", "Input prezzo minimo errato");
+            }
         }
 
         String minimum_increment = request.getParameter("incremento_minimo");
-        float incremento_minimo = 0;
-        try {
-            incremento_minimo = Float.parseFloat(minimum_increment);
-        } catch (NumberFormatException e) {
+        if(!"".equals(minimum_increment)){
+            try {
+                incremento_minimo = Float.parseFloat(minimum_increment);
+            } catch (NumberFormatException e) {
                     session.setAttribute("message", "Input incremento minimo errato");
+            }
         }
 
         String shipping_price = request.getParameter("prezzo_spedizione");
-        float prezzo_spedizione = 0;
-        try {
-            prezzo_spedizione = Float.parseFloat(shipping_price);
-        } catch (NumberFormatException e) {
+        if(!"".equals(shipping_price)){
+            try {
+                prezzo_spedizione = Float.parseFloat(shipping_price);
+            } catch (NumberFormatException e) {
                     session.setAttribute("message", "Input prezzo spedizione errato");
+            }
         }
 
         String deadline = request.getParameter("scadenza");
-        DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        Date utilDate = (Date) df.parse(deadline);
-        java.sql.Date scadenza = new java.sql.Date(utilDate.getTime());
-        
+        if(!"".equals(deadline)){
+            DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            Date utilDate = (Date) df.parse(deadline);
+            scadenza = new java.sql.Date(utilDate.getTime());
+        }
         /*String dirName = getServletContext().getRealPath("/img");
         UploadFile upload = new UploadFile();
-        upload.uploadFile(request, dirName);*/
-        
+        upload.uploadFile(request, dirName);*/        
         
         try {
             manager.aggiungiProdotto(id_utente,nome,quantità,descrizione,categoria,prezzo_iniziale,
