@@ -6,12 +6,14 @@ package servlet;
 
 import db.DBManager;
 import excel.CreateExcel;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -34,9 +36,12 @@ public class SendExcel extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         List<Utente> h_users;
+        ServletContext ctx = getServletContext();
+        String contextPath = ctx.getRealPath(File.separator);
         try {
             h_users = manager.getHistorySeller();
-            CreateExcel se = new CreateExcel(h_users);
+            CreateExcel se = new CreateExcel(h_users, request, contextPath);
+            response.sendRedirect(request.getContextPath()+"/tasse.xls");
         } catch (SQLException ex) {
             Logger.getLogger(SendExcel.class.getName()).log(Level.SEVERE, null, ex);
         }

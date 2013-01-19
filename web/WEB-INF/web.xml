@@ -93,6 +93,10 @@
         <servlet-name>SendExcel</servlet-name>
         <servlet-class>servlet.SendExcel</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UploadFile</servlet-name>
+        <servlet-class>servlet.UploadFile</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Logout</servlet-name>
         <url-pattern>/Logout</url-pattern>
@@ -164,6 +168,10 @@
     <servlet-mapping>
         <servlet-name>SendExcel</servlet-name>
         <url-pattern>/SendExcel</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UploadFile</servlet-name>
+        <url-pattern>/UploadFile</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
