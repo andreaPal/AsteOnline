@@ -100,6 +100,10 @@
                 <input class="btn btn-primary" type="submit" value="Aggiungi" />
                 <input class="btn" type="reset" value="Reset"/>
             </form>
+            <form action="UploadFile" method="post" enctype="multipart/form-data">
+                <input type="file" name="file" />
+                <input type="submit" />
+            </form>
             <br/><br/>
             <ul class="pager">
                 <li class="previous">

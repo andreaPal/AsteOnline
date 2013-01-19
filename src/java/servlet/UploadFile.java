@@ -4,8 +4,12 @@
  */
 package servlet;
 
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Enumeration;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,65 +21,48 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class UploadFile extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP
-     * <code>GET</code> and
-     * <code>POST</code> methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        try {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet UploadFile</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet UploadFile at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        } finally {            
-            out.close();
-        }
-    }
+    
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP
-     * <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /**
-     * Handles the HTTP
-     * <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+   
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        MultipartRequest multi = new MultipartRequest(request, getServletContext().getRealPath("/img"),
+        10*1024*1024, "ISO-8859-1", new DefaultFileRenamePolicy());
+        System.out.println("PARAMS:");
+        Enumeration params = multi.getParameterNames();
+        while (params.hasMoreElements()) {
+            String name = (String)params.nextElement();
+            String value = multi.getParameter(name);
+            System.out.println(name + "=" + value);
+        }
+
+        System.out.println("FILES:");
+        Enumeration files = multi.getFileNames();
+
+        while (files.hasMoreElements()) {
+            String name = (String)files.nextElement();
+            String filename = multi.getFilesystemName(name);
+            String originalFilename = multi.getOriginalFileName(name);
+            String type = multi.getContentType(name);
+            File f = multi.getFile(name);
+            System.out.println("name: " + name);
+            System.out.println("filename: " + filename);
+            System.out.println("originalFilename: " + originalFilename);
+            System.out.println("type: " + type);
+            if (f != null) {
+                System.out.println("f.toString(): " + f.toString());
+                System.out.println("f.getName(): " + f.getName());
+                System.out.println("f.exists(): " + f.exists());
+                System.out.println("f.length(): " + f.length());
+            }
+
+            System.out.println();
+        }
+             
+        response.sendRedirect("acquisti.jsp");
     }
+
 
     /**
      * Returns a short description of the servlet.
