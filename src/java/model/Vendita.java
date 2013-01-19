@@ -10,6 +10,7 @@ import java.sql.Date;
 public class Vendita implements Serializable{
     private int id_vendita;
     private int id_compratore;
+    private int venditore_id;
     private int id_prodotto;
     private Date data_vendita;
     private float prezzo_finale;

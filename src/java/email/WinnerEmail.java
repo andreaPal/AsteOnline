@@ -3,16 +3,17 @@
  * and open the template in the editor.
  */
 package email;
-//import com.sun.corba.se.impl.protocol.giopmsgheaders.Message;
-import javax.mail.Authenticator;
-import javax.mail.PasswordAuthentication;
-//import org.apache.catalina.Session;
-//import sun.rmi.transport.Transport;
+
 import java.security.Security;
 import java.util.Date;
 import java.util.Properties;
-import javax.mail.internet.MimeMessage;
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import java.security.Security;
 import java.util.Date;
 import java.util.Properties;
@@ -23,20 +24,17 @@ import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-
-
-
+import model.Prodotto;
 
 
 /**
  *
  * @author andrea
  */
-public class PasswordMail {
+public class WinnerEmail {
     
-    public PasswordMail(String email, String password) throws AddressException, MessagingException {  
-        
-        
+
+    public WinnerEmail(String email, Prodotto product) throws AddressException, MessagingException {
         Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
         final String SSL_FACTORY = "javax.net.ssl.SSLSocketFactory";
 
@@ -64,13 +62,8 @@ public class PasswordMail {
         message.setRecipients( Message.RecipientType.TO, to );
         message.setSubject( "Invio Password" );
         message.setSentDate( new Date() );
-        message.setText( "questa\ne' la passoword: \n"+password+"\n" );
+        message.setText( "hai vinto l'asta per " + product.getNome() + " al prezzo di " + product.getPrezzo_finale() );
         Transport.send(message);
-
-        
-
-
     }
+    
 }
-
-

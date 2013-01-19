@@ -5,6 +5,8 @@ import java.text.DateFormat;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.lang.Math;
+import java.sql.Timestamp;
 
 public class Prodotto implements Serializable{
     private Integer id_prodotto;
@@ -19,8 +21,15 @@ public class Prodotto implements Serializable{
     private float incremento_minimo;
     private String nome_immagine;
     private float prezzo_spedizione;
-    private Date scadenza;
+    private Timestamp scadenza;
 
+    
+    public float getTasse() {
+        float tasse=0;
+        tasse = (float) (prezzo_attuale*0.0125);
+        int tasse_arr = Math.round(tasse);
+        return (float)tasse_arr;
+    }
     
     public float getPrezzo_attuale() {
         return prezzo_attuale;
@@ -144,7 +153,7 @@ public class Prodotto implements Serializable{
     /**
      * @return the scadenza
      */
-    public Date getScadenza() {
+    public Timestamp getScadenza() {
         return scadenza;
     }
 
@@ -152,14 +161,14 @@ public class Prodotto implements Serializable{
      * @return the scadenza
      */
     public String getRightScadenza() {
-        Format df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+        Format df = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
         return df.format(scadenza);
     }
 
     /**
      * @param scadenza the scadenza to set
      */
-    public void setScadenza(Date scadenza) {
+    public void setScadenza(Timestamp scadenza) {
         this.scadenza = scadenza;
     }
 
@@ -203,5 +212,9 @@ public class Prodotto implements Serializable{
      */
     public void setDescrizione(String descrizione) {
         this.descrizione = descrizione;
+    }
+
+    public float getPrezzo_finale() {
+        return prezzo_attuale + prezzo_spedizione;
     }
 }

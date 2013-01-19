@@ -1,5 +1,6 @@
 package db;
 
+import email.WinnerEmail;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.Date;
@@ -7,9 +8,14 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
 import model.Categoria;
 import model.Prodotto;
 import model.StoricoAsta;
@@ -31,11 +37,19 @@ public class DBManager implements Serializable{
     public DBManager(String dburl) throws SQLException{
       try {
         Class.forName("com.mysql.jdbc.Driver", true,getClass().getClassLoader());
+        
       } catch(Exception e) {
         throw new RuntimeException(e.toString(), e);
       }
        
       this.con = DriverManager.getConnection(dburl,"root","root");
+        try {
+            this.checkScadenza();
+        } catch (AddressException ex) {
+            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MessagingException ex) {
+            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public static void shutdown() {
@@ -125,6 +139,27 @@ public class DBManager implements Serializable{
     
     }
     
+        public String getMail(int id_utente) throws SQLException {
+        String mail="";
+        PreparedStatement stm = con.prepareStatement("SELECT email FROM utente WHERE id = ? ");
+    
+        try {
+        stm.setInt(1, id_utente);      
+        ResultSet rs = stm.executeQuery();
+        try{
+                while(rs.next()){
+                   mail = rs.getString("email");
+                }
+            } finally{
+                rs.close();
+            }
+        } finally {
+            stm.close();
+        }
+        return mail;
+    
+    }
+    
     public String getPassword(String username) throws SQLException {
         String password="";
         PreparedStatement stm = con.prepareStatement("SELECT password FROM utente WHERE username = ? ");
@@ -147,7 +182,7 @@ public class DBManager implements Serializable{
     }
     public void aggiungiProdotto(int id_venditore, String nome, int quantity, String descrizione, 
             int categoria, float prezzo_iniziale, float prezzo_minimo, float incremento_minimo,
-            float prezzo_spedizione, Date scadenza, String nome_immagine) throws SQLException{
+            float prezzo_spedizione, java.sql.Timestamp scadenza, String nome_immagine) throws SQLException{
         PreparedStatement stm = con.prepareStatement("INSERT INTO prodotto(id_venditore,nome,descrizione,"
                 + "quantity,categoria_id,prezzo_iniziale,prezzo_minimo,incremento_minimo,"
                 + "prezzo_spedizione,scadenza,nome_immagine) VALUES(?,?,?,?,?,?,?,?,?,?,?)");
@@ -164,7 +199,7 @@ public class DBManager implements Serializable{
             stm.setFloat(7, prezzo_minimo);
             stm.setFloat(8, incremento_minimo);
             stm.setFloat(9, prezzo_spedizione);
-            stm.setDate(10, scadenza);
+            stm.setTimestamp(10, scadenza);
             stm.setString(11, nome_immagine);
             stm.executeUpdate();
         } finally{
@@ -230,7 +265,10 @@ public class DBManager implements Serializable{
     
     public List<Prodotto> getProducts() throws SQLException{
         List<Prodotto> products = new ArrayList<Prodotto>();
-        PreparedStatement stm = con.prepareStatement("SELECT * FROM prodotto LEFT JOIN categoria ON prodotto.categoria_id = categoria.id_categoria");
+        PreparedStatement stm = con.prepareStatement("SELECT * FROM "
+                + "prodotto LEFT JOIN categoria "
+                + "ON prodotto.categoria_id = categoria.id_categoria "
+                + "WHERE prodotto.deleted = 0");
         
         try{
             ResultSet rs = stm.executeQuery();
@@ -248,7 +286,7 @@ public class DBManager implements Serializable{
                     product.setPrezzo_attuale(rs.getFloat("prezzo_attuale"));
                     product.setPrezzo_spedizione(rs.getFloat("prezzo_spedizione"));
                     product.setIncremento_minimo(rs.getFloat("incremento_minimo"));
-                    product.setScadenza(rs.getDate("scadenza"));
+                    product.setScadenza(rs.getTimestamp("scadenza"));
                     product.setNome_immagine(rs.getString("nome_immagine"));
                     products.add(product);                    
                 }
@@ -263,7 +301,9 @@ public class DBManager implements Serializable{
     public List<Prodotto> getProductsByCategory(String category) throws SQLException{
         List<Prodotto> products = new ArrayList<Prodotto>();
         PreparedStatement stm = con.prepareStatement(
-                "SELECT * FROM prodotto LEFT JOIN categoria ON prodotto.categoria_id = categoria.id_categoria WHERE categoria.id_categoria = ?");
+                "SELECT * FROM prodotto "
+                + "LEFT JOIN categoria ON prodotto.categoria_id = categoria.id_categoria "
+                + "WHERE categoria.id_categoria = ? AND prodotto.deleted = 0");
         stm.setInt(1, Integer.parseInt(category));
         
         try{
@@ -281,7 +321,7 @@ public class DBManager implements Serializable{
                     product.setPrezzo_minimo(rs.getFloat("prezzo_minimo"));
                     product.setPrezzo_spedizione(rs.getFloat("prezzo_spedizione"));
                     product.setIncremento_minimo(rs.getFloat("incremento_minimo"));
-                    product.setScadenza(rs.getDate("scadenza"));
+                    product.setScadenza(rs.getTimestamp("scadenza"));
                     product.setNome_immagine(rs.getString("nome_immagine"));
                     products.add(product);                    
                 }
@@ -322,7 +362,7 @@ public class DBManager implements Serializable{
     }
   public List<StoricoAsta> getHistoricalFromUser(int id_user) throws SQLException{
         List<StoricoAsta> historicals = new ArrayList<StoricoAsta>();
-        PreparedStatement stm = con.prepareCall("SELECT * FROM (storico_asta INNER JOIN prodotto ON storico_asta.id_prodotto = prodotto.id_prodotto) WHERE id_utente = ?");
+        PreparedStatement stm = con.prepareCall("SELECT * FROM (storico_asta INNER JOIN prodotto ON storico_asta.id_prodotto = prodotto.id_prodotto) WHERE id_utente = ? AND prodotto.deleted = 0");
         stm.setInt(1,id_user);
         
         try{
@@ -348,7 +388,9 @@ public class DBManager implements Serializable{
   
         public List<Vendita> getWinFromUser(int id_user) throws SQLException{
         List<Vendita> wins = new ArrayList<Vendita>();
-        PreparedStatement stm = con.prepareCall("SELECT * FROM (vendita INNER JOIN prodotto ON vendita.id_prodotto = prodotto.id_prodotto) WHERE id_compratore = ?");
+        PreparedStatement stm = con.prepareCall("SELECT * FROM "
+                + "(vendita INNER JOIN prodotto ON vendita.id_prodotto = prodotto.id_prodotto) "
+                + "WHERE id_compratore = ?");
         stm.setInt(1,id_user);
         
         try{
@@ -526,6 +568,84 @@ public class DBManager implements Serializable{
             stm.close();
         }
     }
+    
+    public void checkScadenza() throws SQLException, AddressException, MessagingException {
+            PreparedStatement stm = con.prepareStatement("SELECT * FROM prodotto WHERE scadenza < Now() AND deleted = 0");
+
+            try {
+                ResultSet rs = stm.executeQuery();
+                try{
+                    while(rs.next()){
+                        Prodotto product = new Prodotto();
+                        product.setId_prodotto(rs.getInt("id_prodotto"));
+                        product.setId_venditore(rs.getInt("id_venditore"));
+                        product.setPrezzo_spedizione(rs.getFloat("prezzo_spedizione"));
+                        product.setScadenza(rs.getTimestamp("scadenza"));
+                        product.setPrezzo_attuale(rs.getFloat("prezzo_attuale"));
+                        this.updateDeleted(product.getId_prodotto());
+                        this.setVendita(product);
+                    }
+                }finally{
+                    rs.close();
+                }
+            }finally{
+                stm.close();
+            }
+    }
+
+    private void setVendita(Prodotto product) throws SQLException, AddressException, MessagingException {
+            PreparedStatement stm = con.prepareStatement("SELECT * FROM "
+                                                        + "storico_asta INNER JOIN prodotto ON storico_asta.id_prodotto = prodotto.id_prodotto "
+                                                        + "WHERE prodotto.prezzo_attuale = storico_asta.offerta AND prodotto.id_prodotto = ?");
+            
+            stm.setInt(1, product.getId_prodotto());
+            try {
+                ResultSet rs = stm.executeQuery();
+                try{
+                    if (rs.last()) {
+                        this.insertVendita(product, rs.getInt("id_utente"));
+                    } 
+                }finally{
+                    rs.close();
+                }
+            }finally{
+                stm.close();
+            }
+    }
+
+    private void updateDeleted(Integer id_prodotto) throws SQLException {
+        PreparedStatement stm = con.prepareStatement("UPDATE prodotto SET deleted = 1 WHERE id_prodotto = ?");
+        stm.setInt(1, id_prodotto);
+        try {
+            stm.executeUpdate();
+        }finally{
+            stm.close();
+        }
+    }
+
+    private void insertVendita(Prodotto product, int id_compratore) throws SQLException, AddressException, MessagingException {
+            PreparedStatement stm = con.prepareStatement("INSERT INTO vendita(id_compratore,id_prodotto,data,prezzo_finale,prezzo_spedizione,tasse_vendita) VALUES(?,?,?,?,?,?)");
+
+            try{
+                stm.setInt(1, id_compratore);
+                stm.setInt(2, product.getId_prodotto());
+                stm.setTimestamp(3, product.getScadenza());
+                stm.setFloat(4, product.getPrezzo_finale());
+                stm.setFloat(5, product.getPrezzo_spedizione());
+                stm.setFloat(6, product.getTasse());
+                stm.executeUpdate();
+                String email = this.getMail(id_compratore);
+                WinnerEmail we = new WinnerEmail(email,product);
+            }finally{
+                stm.close();
+            }    
+    }
+
+    public List<Vendita> getHistorySells() {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+
 }
 
 

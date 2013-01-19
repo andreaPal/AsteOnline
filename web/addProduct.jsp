@@ -7,8 +7,11 @@
 <html>
     <head>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+        <script type="text/javascript" src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js"></script>
+        <script src="js/bootstrap-datetimepicker.min.js"></script>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+        <link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap-datetimepicker.min.css">
         <title>Nuovo Prodotto</title>
         <script>
             function validateAddProductForm(){
@@ -73,7 +76,23 @@
                         <td>Prezzo spedizione: </td><td> <input name="prezzo_spedizione" type="text" /> </td> 
                     </tr>
                     <tr>
-                        <td>Scadenza: </td><td> <input name="scadenza" placeholder="dd/MM/yyyy HH:mm:ss" type="text" /> </td> 
+                        <td>Scadenza: </td><td>
+                            <div id="datetimepicker2" class="input-append">
+                                <input data-format="dd/MM/yyyy hh:mm:ss" name="scadenza" type="text"></input>
+                                <span class="add-on">
+                                  <i data-time-icon="icon-time" data-date-icon="icon-calendar">
+                                  </i>
+                                </span>
+                            </div>
+                            <script type="text/javascript">
+                              $(function() {
+                                $('#datetimepicker2').datetimepicker({
+                                  language: 'en',
+                                  pick24HourFormat: true
+                                });
+                              });
+                            </script>
+                        </td> 
                     </tr>
 
                 </table>

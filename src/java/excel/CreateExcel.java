@@ -17,7 +17,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
  */
 public class CreateExcel {
     
-    public void createExcel(ArrayList<Vendita> list) throws FileNotFoundException, IOException{
+    public CreateExcel(List<Vendita> list) throws FileNotFoundException, IOException{
         HSSFWorkbook wb = new HSSFWorkbook();
         HSSFSheet sheet = wb.createSheet("Sheet");
         HSSFRow row;

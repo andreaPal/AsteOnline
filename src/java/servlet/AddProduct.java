@@ -65,7 +65,7 @@ public class AddProduct extends HttpServlet {
     float prezzo_minimo = 0;
     float incremento_minimo = 0;
     float prezzo_spedizione = 0;
-    java.sql.Date scadenza = null;
+    java.sql.Timestamp scadenza = null;
         
     try {
         HttpSession session = request.getSession(false);
@@ -129,10 +129,9 @@ public class AddProduct extends HttpServlet {
 
         String deadline = request.getParameter("scadenza");
         if(!"".equals(deadline)){
-            DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            DateFormat df = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
             Date utilDate = (Date) df.parse(deadline);
-            System.out.println(utilDate.toString());
-            scadenza = new java.sql.Date(utilDate.getTime());
+            scadenza = new  java.sql.Timestamp(utilDate.getTime());
         }
         /*String dirName = getServletContext().getRealPath("/img");
         UploadFile upload = new UploadFile();
