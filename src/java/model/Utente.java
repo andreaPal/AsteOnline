@@ -14,7 +14,15 @@ public class Utente implements Serializable{
     private String password;
     private String nome;
     private String indirizzo;
+    private int prezzo_finale;
+    private String email;
+    private Date data_registrazione;
+    private String ruolo;
+    private String city;
+    private int tasse;
 
+    
+    
     public int getTasse() {
         return tasse;
     }
@@ -22,12 +30,15 @@ public class Utente implements Serializable{
     public void setTasse(int tasse) {
         this.tasse = tasse;
     }
-    private String email;
-    private Date data_registrazione;
-    private String ruolo;
-    private String city;
-    private int tasse;
 
+    public int getPrezzo_finale() {
+        return prezzo_finale;
+    }
+
+    public void setPrezzo_finale(int prezzo_finale) {
+        this.prezzo_finale = prezzo_finale;
+    }
+    
     /**
      * @return the id
      */

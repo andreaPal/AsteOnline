@@ -7,10 +7,15 @@ package servlet;
 import db.DBManager;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Utente;
 
 /**
  *
@@ -28,9 +33,17 @@ public class Admin_Page extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        try {
+            List<Utente> sellers = manager.getTopSellers();
+            request.setAttribute("sellers", sellers);
+            List<Utente> buyers = manager.getTopBuyers();
+            request.setAttribute("buyers", buyers);
+            request.getRequestDispatcher("admin_page.jsp").forward(request, response);
 
-    
-     request.getRequestDispatcher("admin_page.jsp").forward(request, response);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Admin_Page.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 

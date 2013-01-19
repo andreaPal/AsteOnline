@@ -28,7 +28,7 @@ public class Login extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-              HttpSession session = request.getSession();
+              HttpSession session = request.getSession(true);
               Utente utente = (Utente) session.getAttribute("user");
               
         if (utente != null){

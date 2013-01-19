@@ -666,7 +666,55 @@ public class DBManager implements Serializable{
         }
         return historicals;
     }
+    
+    public List<Utente> getTopSellers() throws SQLException {
+        
+        List<Utente> historicals = new ArrayList<Utente>();
+        PreparedStatement stm = con.prepareCall("SELECT utente.nome as nome, sum(prezzo_finale) as prezzo_finale FROM (prodotto INNER JOIN vendita ON prodotto.id_prodotto = vendita.id_prodotto) "
+                                                + "INNER JOIN utente ON prodotto.id_venditore = utente.id "
+                                                + "GROUP BY id_venditore DESC");
+        
+        try{
+            ResultSet rs = stm.executeQuery();
+            try{
+                while(rs.next()){
+                    Utente historical = new Utente();
+                    historical.setNome(rs.getString("nome"));
+                    historical.setPrezzo_finale(rs.getInt("prezzo_finale"));
+                    historicals.add(historical);
+                }
+            }finally{
+                rs.close();
+            }
+        }finally{
+            stm.close();
+        }
+        return historicals;
+    }
 
+    public List<Utente> getTopBuyers() throws SQLException {
+        
+        List<Utente> historicals = new ArrayList<Utente>();
+        PreparedStatement stm = con.prepareCall("SELECT utente.nome as nome, sum(prezzo_finale) as prezzo_finale FROM (utente INNER JOIN vendita ON utente.id = vendita.id_compratore) "
+                                                + "GROUP BY id_compratore ASC");
+        
+        try{
+            ResultSet rs = stm.executeQuery();
+            try{
+                while(rs.next()){
+                    Utente historical = new Utente();
+                    historical.setNome(rs.getString("nome"));
+                    historical.setPrezzo_finale(rs.getInt("prezzo_finale"));
+                    historicals.add(historical);
+                }
+            }finally{
+                rs.close();
+            }
+        }finally{
+            stm.close();
+        }
+        return historicals;
+    }
 
 }
 
