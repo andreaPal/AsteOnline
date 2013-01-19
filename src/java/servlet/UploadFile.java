@@ -56,11 +56,11 @@ public class UploadFile extends HttpServlet {
                 System.out.println("f.exists(): " + f.exists());
                 System.out.println("f.length(): " + f.length());
             }
-
-            System.out.println();
+            
+            response.setContentType("text/html");
+            response.getWriter().print(f.getName());
+            
         }
-             
-        response.sendRedirect("acquisti.jsp");
     }
 
 

@@ -6,14 +6,16 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
         <script type="text/javascript" src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js"></script>
         <script src="js/bootstrap-datetimepicker.min.js"></script>
+        <script src="js/ajaxfileupload.js"></script>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
         <link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap-datetimepicker.min.css">
         <title>Nuovo Prodotto</title>
-        <script>
+        <script type="text/javascript">
             function validateAddProductForm(){
                 var nome=document.forms["addProduct"]["nome"].value;
                 var quantity=document.forms["addProduct"]["quantity"].value;
@@ -38,6 +40,33 @@
                     return false;
                 }
                 return true;
+            }
+            
+            function ajax_upload_image() {
+              //starting setting some animation when the ajax starts and completes
+                
+                $("#loading")
+                .ajaxStart(function(){
+                    $(this).show();
+                })
+                .ajaxComplete(function(){
+                    $(this).hide();
+                });
+                
+                $.ajaxFileUpload({
+                        url:'UploadFile', 
+                        secureuri:false,
+                        fileElementId:'fileToUpload',
+                        dataType: 'text/html',
+                        success: function (data, status)
+                        {
+                            $("#hide_image_filename").text(data);
+                        },
+                        error: function (data, status, e)
+                        {}
+                    }
+                )
+                return false;
             }
         </script>
     </head>
@@ -95,14 +124,16 @@
                         </td> 
                     </tr>
 
+                    <input name="nome_immagine" id="hide_image_filename" type="hidden"></input>
                 </table>
                 <br/>
                 <input class="btn btn-primary" type="submit" value="Aggiungi" />
                 <input class="btn" type="reset" value="Reset"/>
             </form>
-            <form action="UploadFile" method="post" enctype="multipart/form-data">
-                <input type="file" name="file" />
-                <input type="submit" />
+            
+            <form name="form" action="" method="POST" enctype="multipart/form-data">	
+                <input id="fileToUpload" type="file" size="45" name="fileToUpload" class="input">
+                <button class="button" id="buttonUpload" onclick="return ajax_upload_image();">Upload</button>
             </form>
             <br/><br/>
             <ul class="pager">

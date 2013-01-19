@@ -133,9 +133,8 @@ public class AddProduct extends HttpServlet {
             Date utilDate = (Date) df.parse(deadline);
             scadenza = new  java.sql.Timestamp(utilDate.getTime());
         }
-        /*String dirName = getServletContext().getRealPath("/img");
-        UploadFile upload = new UploadFile();
-        upload.uploadFile(request, dirName);*/        
+        
+        filename = request.getParameter("nome_immagine");        
         
         try {
             manager.aggiungiProdotto(id_utente,nome,quantità,descrizione,categoria,prezzo_iniziale,
