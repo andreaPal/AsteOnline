@@ -641,8 +641,30 @@ public class DBManager implements Serializable{
             }    
     }
 
-    public List<Vendita> getHistorySells() {
-        throw new UnsupportedOperationException("Not yet implemented");
+    public List<Utente> getHistorySeller() throws SQLException {
+        
+        List<Utente> historicals = new ArrayList<Utente>();
+        PreparedStatement stm = con.prepareCall("SELECT utente.nome as nome, utente.email as email, sum(tasse_vendita) as tasse FROM (prodotto INNER JOIN vendita ON prodotto.id_prodotto = vendita.id_prodotto) "
+                                                + "INNER JOIN utente ON prodotto.id_venditore = utente.id "
+                                                + "GROUP BY id_venditore");
+        
+        try{
+            ResultSet rs = stm.executeQuery();
+            try{
+                while(rs.next()){
+                    Utente historical = new Utente();
+                    historical.setNome(rs.getString("nome"));
+                    historical.setEmail(rs.getString("email"));
+                    historical.setTasse(rs.getInt("tasse"));
+                    historicals.add(historical);
+                }
+            }finally{
+                rs.close();
+            }
+        }finally{
+            stm.close();
+        }
+        return historicals;
     }
 
 

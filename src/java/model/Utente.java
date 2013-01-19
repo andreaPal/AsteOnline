@@ -14,10 +14,19 @@ public class Utente implements Serializable{
     private String password;
     private String nome;
     private String indirizzo;
+
+    public int getTasse() {
+        return tasse;
+    }
+
+    public void setTasse(int tasse) {
+        this.tasse = tasse;
+    }
     private String email;
     private Date data_registrazione;
     private String ruolo;
     private String city;
+    private int tasse;
 
     /**
      * @return the id

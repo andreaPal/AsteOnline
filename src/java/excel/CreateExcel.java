@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import model.Utente;
 import model.Vendita;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -17,20 +18,20 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
  */
 public class CreateExcel {
     
-    public CreateExcel(List<Vendita> list) throws FileNotFoundException, IOException{
+    public CreateExcel(List<Utente> list) throws FileNotFoundException, IOException{
         HSSFWorkbook wb = new HSSFWorkbook();
         HSSFSheet sheet = wb.createSheet("Sheet");
         HSSFRow row;
         HSSFCell cell;
         HSSFCell cell2;
         
-        for (Vendita v : list){
+        for (Utente u : list){
             row = sheet.createRow(list.size());            
             for(int cellsNumber = 0; cellsNumber < 2; cellsNumber++){
                 cell = row.createCell(0);
                 cell2 = row.createCell(1);
-                cell.setCellValue(v.getId_compratore()); 
-                cell2.setCellValue(v.getTasse_vendita());
+                cell.setCellValue(u.getNome()); 
+                cell2.setCellValue(u.getTasse());
             }
             
         }
