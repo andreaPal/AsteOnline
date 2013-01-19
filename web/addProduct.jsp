@@ -60,7 +60,7 @@
                         dataType: 'text/html',
                         success: function (data, status)
                         {
-                            $("#hide_image_filename").text(data);
+                            $("#hide_image_filename").val(data);
                         },
                         error: function (data, status, e)
                         {}
@@ -124,7 +124,7 @@
                         </td> 
                     </tr>
 
-                    <input name="nome_immagine" id="hide_image_filename" type="hidden"></input>
+                    <input name="nome_immagine" value="" id="hide_image_filename" type="hidden"></input>
                 </table>
                 <br/>
                 <input class="btn btn-primary" type="submit" value="Aggiungi" />

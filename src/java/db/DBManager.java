@@ -187,7 +187,6 @@ public class DBManager implements Serializable{
                 + "quantity,categoria_id,prezzo_iniziale,prezzo_minimo,incremento_minimo,"
                 + "prezzo_spedizione,scadenza,nome_immagine) VALUES(?,?,?,?,?,?,?,?,?,?,?)");
         
-        //String nome_immagine = "default.gif";
         
         try{
             stm.setInt(1, id_venditore);

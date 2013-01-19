@@ -50,7 +50,7 @@
                             tbody_products += "<td>"+ json[i]['inc_min'] +"</td>";
                             tbody_products += "<td>"+ json[i]['delivery_price'] +"</td>";
                             tbody_products += "<td>"+ json[i]['deadline'] +"</td>";
-                            tbody_products += "<td>"+ json[i]['image'] +"</td>";
+                            tbody_products += "<td><img src=\"/AsteOnline/img/"+ json[i]['image'] +"\" class=\"img-polaroid\"></td>";
                             tbody_products += "<td><form name=\"form_offerta\" onsubmit=\"return false;\">"
                                                     + "Offerta: <input type=\"text\" style=\"width:45px\" name=\"offerta\">"
                                                     + "<input type=\"submit\" class=\"btn offerta_button\" data-pro=\""+ json[i]['id_product'] +"\">"
@@ -121,7 +121,7 @@
                         <td><c:out value="${p.getIncremento_minimo()}"/></td>
                         <td><c:out value="${p.getPrezzo_spedizione()}"/></td>
                         <td><c:out value="${p.getScadenza()}"/></td>
-                        <td><c:out value="${p.getNome_immagine()}"/></td>
+                        <td><img src="/AsteOnline/img/<c:out value="${p.getNome_immagine()}"/>" class="img-polaroid"></td>
                         <td>
                             <form name="form_offerta" onsubmit="return false;">
                                 Offerta: <input type="text" style="width:45px" name="offerta">

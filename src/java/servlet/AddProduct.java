@@ -134,7 +134,9 @@ public class AddProduct extends HttpServlet {
             scadenza = new  java.sql.Timestamp(utilDate.getTime());
         }
         
-        filename = request.getParameter("nome_immagine");        
+        filename = request.getParameter("nome_immagine");  
+        System.out.println("ehwfiejrwgire=>"+filename);
+        
         
         try {
             manager.aggiungiProdotto(id_utente,nome,quantità,descrizione,categoria,prezzo_iniziale,
