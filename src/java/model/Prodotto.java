@@ -7,6 +7,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.lang.Math;
 import java.sql.Timestamp;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Prodotto implements Serializable{
     private Integer id_prodotto;
@@ -216,5 +218,18 @@ public class Prodotto implements Serializable{
 
     public float getPrezzo_finale() {
         return prezzo_attuale + prezzo_spedizione;
+    }
+
+    public boolean checkRicerca(String ricerca) {
+        if (ricerca == "")
+            return true;
+        /*Pattern pattern = Pattern.compile(ricerca);
+        Matcher matcher = pattern.matcher(nome);
+        if(matcher.find()) {
+            return matcher.matches();
+        }*/
+        return nome.toLowerCase().matches("(.*)"+ricerca.toLowerCase()+"(.*)");
+            
+       
     }
 }

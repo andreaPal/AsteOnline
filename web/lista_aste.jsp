@@ -10,14 +10,14 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
 
-        <script>
+        <script type="text/javascript">
             $(document).ready(function() {
                 var product_deleted_id = "";
 
-                $(".table_delete_button").click(function(e){
+                $(".table_delete_button").live("click", function(e){
                     product_deleted_id = $(this).parent().parent().find("td:first-child").text();
                 });
                 

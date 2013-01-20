@@ -52,7 +52,7 @@ public class RicercaProdotti extends HttpServlet {
             
             JSONArray json_products = new JSONArray();
             for(Prodotto p : products){
-                 if (p.getNome().toLowerCase().contains(ricerca.toLowerCase())) {
+                 if (p.checkRicerca(ricerca)) {
 
                     JSONObject json_product = new JSONObject();
                     json_product.put("id_product", p.getId_prodotto());
@@ -77,4 +77,6 @@ public class RicercaProdotti extends HttpServlet {
             Logger.getLogger(Acquisti.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+
 }
