@@ -14,10 +14,8 @@
                 
                 if (username==null || username=="" || password==null || password=="")
                 {
-                    //alert($('#flash_error'));
                     if($('#flash_login_error').length == 0){
-                    $('#loginForm').prepend('<div id="flash_login_error" class="alert alert-error">I campi username/password non devono essere vuoti!</div>');
-                    //$('#flash_login_error').delay(2000).fadeOut('<div id="flash_login_error" class="alert alert-error">I campi username/password non devono essere vuoti!</div>');
+                      $('#loginForm').prepend('<div id="flash_login_error" class="alert alert-error">I campi username/password non devono essere vuoti!</div>');
                     } 
                     return false;
                 }
@@ -51,13 +49,16 @@
                     return false;
                 }
                 
-                /*var result = ajax_offer(username);
-                alert(result);
-                if (!result){
-                    return false;
-                } else {
-                    alert(result);
-                }*/
+                /*alert($("#hidden_username_check").val());
+                ajax_check(username);
+                alert($("#hidden_username_check").val());
+                while ($("#hidden_username_check").val() == ""){
+                }
+                
+                alert($("#hidden_username_check").val());
+                return false;//TEST
+                if ($("#hidden_username_check").val() == "false")
+                    return false;*/
                 
                 var atpos=email.indexOf("@");
                 var dotpos=email.lastIndexOf(".");
@@ -72,7 +73,7 @@
                 return true;
             }
             
-            function ajax_offer(username) {
+            function ajax_check(username) {
                 $.ajax({
                       type: "POST",
                       url: "/AsteOnline/CheckUsername",
@@ -83,9 +84,11 @@
                         if (json['check'] != 0){
                             var flash='<div id="flash_offer" class="alert alert-error">Username già in uso</div>';
                             $('#registrationForm').prepend(flash);
-                            return false;
+                            //return false;
+                            $("#hidden_username_check").val("false");
                         } else {
-                            return true;
+                            //return true;
+                            $("#hidden_username_check").val("true");
                         }
                       },
                       error: function()
@@ -100,6 +103,7 @@
         <%@ include file="header.jsp" %>
         <br/>      
         <div id="loginForm" class="container well">
+            <input type="hidden" id="hidden_username_check" />
             <form class="form-signin" name="loginForm" action="Login" method="POST" onsubmit="return validateLoginForm()">
                 <h2 class="form-signin-heading">Login</h2>
                 <table>

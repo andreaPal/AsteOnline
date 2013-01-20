@@ -46,7 +46,7 @@
                             tbody_products += "<td>"+ json[i]['inc_min'] +"</td>";
                             tbody_products += "<td>"+ json[i]['delivery_price'] +"</td>";
                             tbody_products += "<td>"+ json[i]['deadline'] +"</td>";
-                            tbody_products += "<td>"+ json[i]['image'] +"</td>";
+                            tbody_products += "<td><img src=\"/AsteOnline/img/"+ json[i]['image'] +"\" class=\"img-polaroid\"></td>";
                             tbody_products += "<td><a href=\"#myModal\" role=\"button\" class=\"btn btn-danger table_delete_button\" data-toggle=\"modal\">Cancella</a></td></tr>"
                         }
                         $("#products_table").html(tbody_products);
@@ -85,7 +85,7 @@
         <table style="margin-left:-13px;" class="table table-bordered">
             <thead>
                 <tr>
-                    <th>ID Prodotto</th>
+                    <th>ID</th>
                     <th>Nome</th>
                     <th>Descrizione</th>
                     <th>Quantità</th>
@@ -112,7 +112,7 @@
                         <td><c:out value="${p.getIncremento_minimo()}"/></td>
                         <td><c:out value="${p.getPrezzo_spedizione()}"/></td>
                         <td><c:out value="${p.getScadenza()}"/></td>
-                        <td><c:out value="${p.getNome_immagine()}"/></td>
+                        <td><img src="/AsteOnline/img/<c:out value="${p.getNome_immagine()}"/>" class="img-polaroid"></td>
                         <td>
                             <a href="#myModal" role="button" class="btn btn-danger table_delete_button" data-toggle="modal">Cancella</a>
                         </td>
