@@ -3,7 +3,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
         <link rel="stylesheet" type="text/css" href="/AsteOnline/css/bootstrap.css">
         <title>Login</title>
         <script>
@@ -33,16 +33,30 @@
                 var email=document.forms["registrationForm"]["email"].value;
                 var email2=document.forms["registrationForm"]["email2"].value;
                 
-                if(username==null || username=="" || password==null || password==""
+                if (email!=email2) {
+                    if($('#flash_registration_error').length == 0){
+                        $('#registrationForm').prepend('<div id="flash_registration_error" class="alert alert-error">Gli indirizzi email non corrispondono</div>');
+                    }
+                    return false;                    
+                }
+                
+                if((username==null || username=="" || password==null || password==""
                     || nome==null || nome=="" || city==null || city=="" 
                     || indirizzo==null | indirizzo=="" || email==null || email=="" 
-                    || email2==null || email2=="")
+                    || email2==null || email2==""))
                 {
                     if($('#flash_registration_error').length == 0){
                     $('#registrationForm').prepend('<div id="flash_registration_error" class="alert alert-error">I campi non devono essere vuoti!</div>');
-                    //$('#flash_registration_error').delay(2000).fadeOut();
                     }
                     return false;
+                }
+                
+                var result = ajax_offer(username);
+                alert(result);
+                if (!result){
+                    return false;
+                } else {
+                    alert(result);
                 }
                 
                 var atpos=email.indexOf("@");
@@ -54,7 +68,31 @@
                     }
                     return false;
                 }
+                
                 return true;
+            }
+            
+            function ajax_offer(username) {
+                $.ajax({
+                      type: "POST",
+                      url: "/AsteOnline/CheckUsername",
+                      data: "username=" + username,
+                      dataType: "json",
+                      success: function(json)
+                      {
+                        if (json['check'] != 0){
+                            var flash='<div id="flash_offer" class="alert alert-error">Username già in uso</div>';
+                            $('#registrationForm').prepend(flash);
+                            return false;
+                        } else {
+                            return true;
+                        }
+                      },
+                      error: function()
+                      {
+                        alert("request error!");
+                      }
+                    });
             }
         </script>
     </head>

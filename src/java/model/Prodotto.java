@@ -27,7 +27,7 @@ public class Prodotto implements Serializable{
 
     
     public float getTasse() {
-        float tasse=0;
+        float tasse;
         tasse = (float) (prezzo_attuale*0.0125);
         int tasse_arr = Math.round(tasse);
         return (float)tasse_arr;

@@ -43,13 +43,7 @@ public class DBManager implements Serializable{
       }
        
       this.con = DriverManager.getConnection(dburl,"root","root");
-        try {
-            this.checkScadenza();
-        } catch (AddressException ex) {
-            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MessagingException ex) {
-            Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
     }
     
     public static void shutdown() {
@@ -185,7 +179,7 @@ public class DBManager implements Serializable{
             float prezzo_spedizione, java.sql.Timestamp scadenza, String nome_immagine) throws SQLException{
         PreparedStatement stm = con.prepareStatement("INSERT INTO prodotto(id_venditore,nome,descrizione,"
                 + "quantity,categoria_id,prezzo_iniziale,prezzo_minimo,incremento_minimo,"
-                + "prezzo_spedizione,scadenza,nome_immagine) VALUES(?,?,?,?,?,?,?,?,?,?,?)");
+                + "prezzo_spedizione,scadenza,nome_immagine,prezzo_attuale) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)");
         
         
         try{
@@ -200,6 +194,7 @@ public class DBManager implements Serializable{
             stm.setFloat(9, prezzo_spedizione);
             stm.setTimestamp(10, scadenza);
             stm.setString(11, nome_immagine);
+            stm.setFloat(12, prezzo_iniziale);
             stm.executeUpdate();
         } finally{
             stm.close();
@@ -568,7 +563,7 @@ public class DBManager implements Serializable{
         }
     }
     
-    public void checkScadenza() throws SQLException, AddressException, MessagingException {
+    public void checkScadenza() throws SQLException {
             PreparedStatement stm = con.prepareStatement("SELECT * FROM prodotto WHERE scadenza < Now() AND deleted = 0");
 
             try {
@@ -592,7 +587,7 @@ public class DBManager implements Serializable{
             }
     }
 
-    private void setVendita(Prodotto product) throws SQLException, AddressException, MessagingException {
+    private void setVendita(Prodotto product) throws SQLException {
             PreparedStatement stm = con.prepareStatement("SELECT * FROM "
                                                         + "storico_asta INNER JOIN prodotto ON storico_asta.id_prodotto = prodotto.id_prodotto "
                                                         + "WHERE prodotto.prezzo_attuale = storico_asta.offerta AND prodotto.id_prodotto = ?");
@@ -622,7 +617,7 @@ public class DBManager implements Serializable{
         }
     }
 
-    private void insertVendita(Prodotto product, int id_compratore) throws SQLException, AddressException, MessagingException {
+    private void insertVendita(Prodotto product, int id_compratore) throws SQLException {
             PreparedStatement stm = con.prepareStatement("INSERT INTO vendita(id_compratore,id_prodotto,data,prezzo_finale,prezzo_spedizione,tasse_vendita) VALUES(?,?,?,?,?,?)");
 
             try{
@@ -634,7 +629,13 @@ public class DBManager implements Serializable{
                 stm.setFloat(6, product.getTasse());
                 stm.executeUpdate();
                 String email = this.getMail(id_compratore);
+            try {
                 WinnerEmail we = new WinnerEmail(email,product);
+            } catch (AddressException ex) {
+                Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (MessagingException ex) {
+                Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+            }
             }finally{
                 stm.close();
             }    
@@ -713,6 +714,24 @@ public class DBManager implements Serializable{
             stm.close();
         }
         return historicals;
+    }
+
+    public int checkUsername(String username) throws SQLException {
+        int count=0;        
+        PreparedStatement stm = con.prepareCall("SELECT count(username) as count FROM utente WHERE username = ?");
+        stm.setString(1, username);
+        try{
+            ResultSet rs = stm.executeQuery();
+            try{
+                if(rs.last())
+                   count = rs.getInt("count");
+            }finally{
+                rs.close();
+            }
+        }finally{
+            stm.close();
+        }
+        return count;
     }
 
 }

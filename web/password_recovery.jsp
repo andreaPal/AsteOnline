@@ -10,7 +10,7 @@
         <%@ include file="header.jsp" %>
         <div class="well">
             <div class="container">
-                <p>Inserisci email:</p>
+                <p>Inserisci username:</p>
                 <form name="input" action="sendMail" method="get">
                     <input type="text" name="user">
                     <input type="submit" value="Submit" >

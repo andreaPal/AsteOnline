@@ -61,6 +61,8 @@
                         success: function (data, status)
                         {
                             $("#hide_image_filename").val(data);
+                            var flash='<div id="flash_offer" class="alert alert-success">L\'immagine è stata caricata!</div>';
+                            $('#addProductForm').prepend(flash);
                         },
                         error: function (data, status, e)
                         {}
@@ -73,8 +75,12 @@
     <body>
         <%@ include file="headerlogin.jsp" %>
         <div id="addProductForm" class="container well">
+            <h2 class="form-signin-heading">Nuovo Prodotto</h2>
+            <form name="form" action="" method="POST" enctype="multipart/form-data">	
+                <input id="fileToUpload" type="file" size="45" name="fileToUpload" class="input">
+                <button class="button btn btn-info" id="buttonUpload" onclick="return ajax_upload_image();">Upload</button>
+            </form>
             <form class="form-signin" name="addProduct" action="AddProduct" method="POST" onsubmit="return validateAddProductForm()">
-                <h2 class="form-signin-heading">Nuovo Prodotto</h2>
                 <table>
                     <tr>
                         <td>Nome: </td><td> <input name="nome" type="text" /> </td> 
@@ -129,11 +135,6 @@
                 <br/>
                 <input class="btn btn-primary" type="submit" value="Aggiungi" />
                 <input class="btn" type="reset" value="Reset"/>
-            </form>
-            
-            <form name="form" action="" method="POST" enctype="multipart/form-data">	
-                <input id="fileToUpload" type="file" size="45" name="fileToUpload" class="input">
-                <button class="button" id="buttonUpload" onclick="return ajax_upload_image();">Upload</button>
             </form>
             <br/><br/>
             <ul class="pager">

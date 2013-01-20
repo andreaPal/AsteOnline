@@ -57,7 +57,7 @@ public class AddProduct extends HttpServlet {
             throws ServletException, IOException {
     
     String name = "";
-    String filename = "";
+    String filename = "default.gif";
     String value = "";
     int id_utente = 0;
     int quantità = 0;
@@ -134,8 +134,9 @@ public class AddProduct extends HttpServlet {
             scadenza = new  java.sql.Timestamp(utilDate.getTime());
         }
         
-        filename = request.getParameter("nome_immagine");  
-        System.out.println("ehwfiejrwgire=>"+filename);
+        if (!request.getParameter("nome_immagine").equals(""))
+            filename = request.getParameter("nome_immagine");  
+        
         
         
         try {

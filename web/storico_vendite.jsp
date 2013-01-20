@@ -37,5 +37,6 @@
             </tbody>
             
         </table>
+        <a href="SendExcel" role="button" class="btn btn-primary">Scarica Excel</a>
     </body>
 </html>

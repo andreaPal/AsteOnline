@@ -94,7 +94,7 @@
         <table style="margin-left:-13px;" class="table table-bordered">
             <thead>
                 <tr>
-                    <th>ID Prodotto</th>
+                    <th>ID</th>
                     <th>Nome</th>
                     <th>Descrizione</th>
                     <th>Quantità</th>

@@ -11,18 +11,16 @@
     <filter-mapping>
         <filter-name>FiltroAdmin</filter-name>
         <url-pattern>/Admin_Page</url-pattern>
+        <url-pattern>/ListaAste</url-pattern>
+        <url-pattern>/StoricoVendite</url-pattern>
         <url-pattern>/admin_page.jsp</url-pattern>
         <url-pattern>/lista_aste.jsp</url-pattern>
         <url-pattern>/storico_vendite.jsp</url-pattern>
-        <url-pattern>/ListaAste</url-pattern>
-        <url-pattern>/StoricoVendite</url-pattern>
+    
     </filter-mapping>
     <filter-mapping>
         <filter-name>FiltroAutenticazione</filter-name>
         <url-pattern>/User_Page</url-pattern>
-        <url-pattern>/user_page.jsp</url-pattern>
-        <url-pattern>/acquisti.jsp</url-pattern>
-        <url-pattern>/addProduct.jsp</url-pattern>
         <url-pattern>/storico_acquisti.jsp</url-pattern>
         <url-pattern>/storico_aste_perse.jsp</url-pattern>
         <url-pattern>/Acquisti</url-pattern>
@@ -31,6 +29,11 @@
         <url-pattern>/StoricoAcquisti</url-pattern>
         <url-pattern>/Storico_Aste</url-pattern>
         <url-pattern>/offerta_prodotto</url-pattern>
+        <url-pattern>/user_page.jsp</url-pattern>
+        <url-pattern>/acquisti.jsp</url-pattern>
+        <url-pattern>/addProduct.jsp</url-pattern>
+    
+        
     </filter-mapping>
     <listener>
         <description>listener</description>
@@ -112,6 +115,10 @@
         <servlet-name>UploadFile</servlet-name>
         <servlet-class>servlet.UploadFile</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CheckUsername</servlet-name>
+        <servlet-class>servlet.CheckUsername</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Logout</servlet-name>
         <url-pattern>/Logout</url-pattern>
@@ -187,6 +194,10 @@
     <servlet-mapping>
         <servlet-name>UploadFile</servlet-name>
         <url-pattern>/UploadFile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CheckUsername</servlet-name>
+        <url-pattern>/CheckUsername</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
