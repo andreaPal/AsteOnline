@@ -51,13 +51,13 @@
                     return false;
                 }
                 
-                var result = ajax_offer(username);
+                /*var result = ajax_offer(username);
                 alert(result);
                 if (!result){
                     return false;
                 } else {
                     alert(result);
-                }
+                }*/
                 
                 var atpos=email.indexOf("@");
                 var dotpos=email.lastIndexOf(".");

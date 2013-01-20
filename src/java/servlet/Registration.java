@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.Utente;
 
 /**
  *
@@ -34,19 +35,38 @@ public class Registration extends HttpServlet {
             throws ServletException, IOException {     
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        System.out.println(username);
         String nome = request.getParameter("nome");
         String città = request.getParameter("city");
         String indirizzo = request.getParameter("indirizzo");
         String email = request.getParameter("email");
         Date data_registrazione = new Date(System.currentTimeMillis());
-        
+        Utente utente;
+      
         try {
             manager.aggiungiUtente(username, password, nome, città, indirizzo, email, data_registrazione);
+            utente = manager.authenticate(username, password);
+            System.out.println("juujghuhuhu"+utente.getId());
+
+            if (utente == null) {
+              request.setAttribute("errorMessage", "Username/password non esistente !");
+              response.sendRedirect(request.getContextPath() + "/login.jsp");
+              return;
+            } else if ("user".equals(utente.getRuolo())) {
+              HttpSession session = request.getSession(true);
+              session.setAttribute("user", utente);
+              response.sendRedirect(request.getContextPath() + "/User_Page");
+            }
+            else if ("admin".equals(utente.getRuolo())) {                 
+              HttpSession session = request.getSession(true);
+              session.setAttribute("user", utente);
+              response.sendRedirect(request.getContextPath() + "/Admin_Page");
+            }
         } catch (SQLException ex) {
             Logger.getLogger(Registration.class.getName()).log(Level.SEVERE, null, ex);
-        }     
-        request.getRequestDispatcher("user_page.jsp").forward(request, response);
+        }
+        
+
+        //request.getRequestDispatcher("user_page.jsp").forward(request, response);
 
         
         

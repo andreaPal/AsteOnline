@@ -441,8 +441,8 @@ public class DBManager implements Serializable{
     public List<StoricoAsta> getHistoricalLostFromUser(int id_user) throws SQLException{
         List<StoricoAsta> historicals = new ArrayList<StoricoAsta>();
         PreparedStatement stm = con.prepareCall("SELECT * FROM (asteonline.storico_asta INNER JOIN asteonline.vendita ON storico_asta.id_prodotto = vendita.id_prodotto) "
-                                                +"WHERE id_utente <> ? "
-                                                + "GROUP BY ?");
+                                                +"WHERE id_utente <> ? AND id_compratore = ? "
+                                                +"GROUP BY id_utente");
         stm.setInt(1,id_user);
         stm.setInt(2,id_user);
         
