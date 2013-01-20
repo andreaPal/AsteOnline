@@ -5,13 +5,19 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<link rel="stylesheet" type="text/css" href="/AsteOnline/css/bootstrap.css">
+
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Error Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
-    </body>
+        <h1>Errore!</h1>
+            <div class='alert alert-error fade in'>
+              <strong>Non sei autorizzato ad accedere a queste informazioni</strong>
+            </div>       
+            <a class= 'btn btn-primary' href='Login'> Homepage </a>
+                </body>
 </html>

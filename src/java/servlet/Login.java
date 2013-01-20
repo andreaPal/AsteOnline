@@ -31,7 +31,7 @@ public class Login extends HttpServlet {
               HttpSession session = request.getSession(true);
               Utente utente = (Utente) session.getAttribute("user");
               
-        if (utente != null){
+        if (utente != null && utente.getRuolo()!=null){
             if (utente.getRuolo().equalsIgnoreCase("user"))            
                 response.sendRedirect(request.getContextPath() + "/User_Page");
             else if (utente.getRuolo().equalsIgnoreCase("admin")) 
