@@ -36,16 +36,16 @@ public class CheckUsername extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String username = request.getParameter("username");
-        JSONObject check = new JSONObject();
+        //JSONObject check = new JSONObject();
         int user = 1;
         try {
             user= manager.checkUsername(username);
         } catch (SQLException ex) {
             Logger.getLogger(CheckUsername.class.getName()).log(Level.SEVERE, null, ex);
         }
-        check.put("check", user);
+        /*check.put("check", user);
         response.setContentType("application/json");
-        response.getWriter().print(check.toString());
+        response.getWriter().print(check.toString());*/
     }
 
     /**

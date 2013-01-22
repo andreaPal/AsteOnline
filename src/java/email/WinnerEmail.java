@@ -60,9 +60,9 @@ public class WinnerEmail {
         InternetAddress to[] = InternetAddress.parse( email );
         message.setFrom( from );
         message.setRecipients( Message.RecipientType.TO, to );
-        message.setSubject( "Invio Password" );
+        message.setSubject( "Vittoria asta" );
         message.setSentDate( new Date() );
-        message.setText( "hai vinto l'asta per " + product.getNome() + " al prezzo di " + product.getPrezzo_finale() );
+        message.setText( "hai vinto l'asta per ID Prodotto:" + product.getId_prodotto() + "; al prezzo di " + product.getPrezzo_finale() );
         Transport.send(message);
     }
     

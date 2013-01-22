@@ -107,13 +107,13 @@ public class FiltroAdmin implements Filter {
                 HttpSession session = ((HttpServletRequest)request).getSession(false);            
                 if (session!=null) {
                 Utente user = (Utente) session.getAttribute("user");
-                
-
-                if (user.getRuolo().equalsIgnoreCase("admin")) {
+                if (user!=null) {
+                    if (user.getRuolo().equalsIgnoreCase("admin")) {
                     authorized = true;
+                    }
                 }
                 
-            }
+                }
             }
             if (authorized) {
                 chain.doFilter(request, response);

@@ -40,12 +40,19 @@ public class Registration extends HttpServlet {
         String indirizzo = request.getParameter("indirizzo");
         String email = request.getParameter("email");
         Date data_registrazione = new Date(System.currentTimeMillis());
-        Utente utente;
+        Utente utente = null;
       
         try {
+            if (manager.checkUsername(username) ==0) {
             manager.aggiungiUtente(username, password, nome, città, indirizzo, email, data_registrazione);
             utente = manager.authenticate(username, password);
-            System.out.println("juujghuhuhu"+utente.getId());
+            }
+            else {
+              response.sendRedirect(request.getContextPath() + "/login.jsp");
+              return;
+
+            }
+            
 
             if (utente == null) {
               request.setAttribute("errorMessage", "Username/password non esistente !");

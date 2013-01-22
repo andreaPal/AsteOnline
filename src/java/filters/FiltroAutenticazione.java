@@ -46,9 +46,10 @@ public class FiltroAutenticazione implements Filter {
                 if (session!=null) {
                 Utente user = (Utente) session.getAttribute("user");
                 
-
+                if (user!=null) {
                 if (user.getRuolo().equalsIgnoreCase("user"))  {
                     authorized = true;
+                }
                 }
                 
             }
