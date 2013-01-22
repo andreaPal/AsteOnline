@@ -9,16 +9,8 @@ import java.util.Date;
 import java.util.Properties;
 import javax.mail.Authenticator;
 import javax.mail.Message;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import java.security.Security;
-import java.util.Date;
-import java.util.Properties;
-import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.AddressException;
@@ -26,15 +18,13 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import model.Prodotto;
 
-
 /**
  *
  * @author andrea
  */
-public class WinnerEmail {
+public class SendEmail {
     
-
-    public WinnerEmail(String email, Prodotto product) throws AddressException, MessagingException {
+     public SendEmail(String email, String textMessage, String subject) throws AddressException, MessagingException {
         Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
         final String SSL_FACTORY = "javax.net.ssl.SSLSocketFactory";
 
@@ -60,9 +50,9 @@ public class WinnerEmail {
         InternetAddress to[] = InternetAddress.parse( email );
         message.setFrom( from );
         message.setRecipients( Message.RecipientType.TO, to );
-        message.setSubject( "Vittoria asta" );
+        message.setSubject( subject );
         message.setSentDate( new Date() );
-        message.setText( "hai vinto l'asta per ID Prodotto:" + product.getId_prodotto() + "; al prezzo di " + product.getPrezzo_finale() );
+        message.setText( textMessage );
         Transport.send(message);
     }
     

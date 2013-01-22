@@ -27,6 +27,7 @@
             });
             
             function ajax_deleted(product_deleted_id) {
+                $("#delete_button").attr("disabled", "disabled");
                 $.ajax({
                       type: "POST",
                       url: "/AsteOnline/ListaAsteDeleted",
@@ -36,7 +37,7 @@
                       {
                         var tbody_products = "";
                         for(var i=0; i<json.length;i++){
-                            tbody_products += "<tr><td>"+ json[i]['id_product'] +"</td>";
+                            tbody_products += "<tr><td style='display:none;'>"+ json[i]['id_product'] +"</td>";
                             tbody_products += "<td>"+ json[i]['name'] +"</td>";
                             tbody_products += "<td>"+ json[i]['description'] +"</td>";
                             tbody_products += "<td>"+ json[i]['quantity'] +"</td>";
@@ -51,6 +52,7 @@
                         }
                         $("#products_table").html(tbody_products);
                         $("#myModal").modal("hide");
+                        $("#delete_button").removeAttr("disabled");
                       },
                       error: function()
                       {
@@ -85,7 +87,7 @@
         <table style="margin-left:-13px;" class="table table-bordered">
             <thead>
                 <tr>
-                    <th>ID</th>
+                    <th style="display:none;">ID</th>
                     <th>Nome</th>
                     <th>Descrizione</th>
                     <th>Quantità</th>
@@ -102,7 +104,7 @@
             <tbody id="products_table">
               <c:forEach var="p" items="${products}">
                     <tr>
-                        <td><c:out value="${p.getId_prodotto()}"/></td>
+                        <td style="display:none;"><c:out value="${p.getId_prodotto()}"/></td>
                         <td><c:out value="${p.getNome()}"/></td>
                         <td><c:out value="${p.getDescrizione()}"/></td>
                         <td><c:out value="${p.getQuantity()}"/></td>

@@ -1,6 +1,6 @@
 package db;
 
-import email.WinnerEmail;
+import email.SendEmail;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.Date;
@@ -8,8 +8,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -432,10 +430,33 @@ public class DBManager implements Serializable{
     }
     
     public void deleteProduct(int id_prodotto) throws SQLException {
-         PreparedStatement stm = con.prepareStatement(
-                "DELETE FROM prodotto WHERE id_prodotto = ?");
+         PreparedStatement stm2 = con.prepareStatement("SELECT DISTINCT email FROM utente INNER JOIN storico_asta ON id_utente = id "
+                                                      +"WHERE id_prodotto = ?");
+         PreparedStatement stm = con.prepareStatement("DELETE FROM prodotto WHERE id_prodotto = ?");
          stm.setInt(1, id_prodotto);
-         stm.executeUpdate();
+         stm2.setInt(1, id_prodotto);
+         
+         
+         try{
+            ResultSet rs = stm2.executeQuery();
+            try{
+                while(rs.next()){
+                  String email = rs.getString("email");
+                  try {
+                    SendEmail se = new SendEmail(email, "L'asta al quale hai partecipato e' stata rimossa", "Rimozione asta");
+                  } catch (AddressException ex) {
+                    Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+                  } catch (MessagingException ex) {
+                    Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
+                  }
+                }
+            }finally{
+                rs.close();
+            }
+        }finally{
+            stm2.close();
+        }
+        stm.executeUpdate();      
     }
     
     public List<StoricoAsta> getHistoricalLostFromUser(int id_user) throws SQLException{
@@ -630,7 +651,7 @@ public class DBManager implements Serializable{
                 stm.executeUpdate();
                 String email = this.getMail(id_compratore);
             try {
-                WinnerEmail we = new WinnerEmail(email,product);
+                SendEmail se = new SendEmail(email,"hai vinto l'asta per ID Prodotto:" + product.getId_prodotto() + "; al prezzo di " + product.getPrezzo_finale(), "Vittoria asta");
             } catch (AddressException ex) {
                 Logger.getLogger(DBManager.class.getName()).log(Level.SEVERE, null, ex);
             } catch (MessagingException ex) {

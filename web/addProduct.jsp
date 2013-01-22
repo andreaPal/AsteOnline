@@ -20,7 +20,7 @@
                 var nome=document.forms["addProduct"]["nome"].value;
                 var quantity=document.forms["addProduct"]["quantity"].value;
                 var descrizione=document.forms["addProduct"]["descrizione"].value;
-                var categoria=document.forms["addProduct"]["categoria"].value;
+                var categoria=document.forms["addProduct"]["category"].value;
                 var prezzo_iniziale=document.forms["addProduct"]["prezzo_iniziale"].value;
                 var prezzo_min=document.forms["addProduct"]["prezzo_min"].value;
                 var incremento_minimo=document.forms["addProduct"]["incremento_minimo"].value;
@@ -34,8 +34,19 @@
                     || scadenza==null || scadenza=="")
                 {
                     if($('#flash_error').length == 0){
-                    $('#addProductForm').prepend('<div id="flash_error" class="alert alert-error">I campi username/password non devono essere vuoti!</div>');
-                    //$('#flash_error').delay(2000).fadeOut('<div id="flash_error" class="alert alert-error">I campi username/password non devono essere vuoti!</div>');
+                      $('#addProductForm').prepend('<div id="flash_error" class="alert alert-error">Tutti i campi devono essere riempiti!</div>');
+                    }
+                    return false;
+                }
+                
+                if (isNaN(parseInt(quantity)) ||
+                    isNaN(parseInt(prezzo_iniziale)) ||
+                    isNaN(parseInt(prezzo_min)) ||
+                    isNaN(parseInt(incremento_minimo)) ||
+                    isNaN(parseInt(prezzo_spedizione))
+                   ){
+                    if($('#flash_error').length == 0){
+                      $('#addProductForm').prepend('<div id="flash_error" class="alert alert-error">Alcuni campi che hai compilato devono contenere numeri</div>');
                     }
                     return false;
                 }

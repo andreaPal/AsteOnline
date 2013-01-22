@@ -5,9 +5,8 @@
 package servlet;
 
 import db.DBManager;
-import email.PasswordMail;
+import email.SendEmail;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,11 +23,10 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author andrea
  */
-public class sendMail extends HttpServlet {
+public class RecoveryPassword extends HttpServlet {
 
     String username,mail,password;
     private DBManager manager;
-    private PasswordMail PasswordMail;
 
     @Override
     public void init() throws ServletException {
@@ -43,14 +41,14 @@ public class sendMail extends HttpServlet {
             mail = manager.getMail(username);
             password = manager.getPassword(username);
                     try {
-                        PasswordMail = new PasswordMail(mail,password);
+                        SendEmail PasswordMail = new SendEmail(mail,"questa\ne' la passoword: \n"+password+"\n", "Invio Password");
                     } catch (AddressException ex) {
-                        Logger.getLogger(sendMail.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(RecoveryPassword.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (MessagingException ex) {
-                        Logger.getLogger(sendMail.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(RecoveryPassword.class.getName()).log(Level.SEVERE, null, ex);
                     }
         } catch (SQLException ex) {
-            Logger.getLogger(sendMail.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RecoveryPassword.class.getName()).log(Level.SEVERE, null, ex);
         }
         response.sendRedirect(request.getContextPath());
     }

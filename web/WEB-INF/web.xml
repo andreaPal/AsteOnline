@@ -16,7 +16,6 @@
         <url-pattern>/admin_page.jsp</url-pattern>
         <url-pattern>/lista_aste.jsp</url-pattern>
         <url-pattern>/storico_vendite.jsp</url-pattern>
-    
     </filter-mapping>
     <filter-mapping>
         <filter-name>FiltroAutenticazione</filter-name>
@@ -32,8 +31,6 @@
         <url-pattern>/user_page.jsp</url-pattern>
         <url-pattern>/acquisti.jsp</url-pattern>
         <url-pattern>/addProduct.jsp</url-pattern>
-    
-        
     </filter-mapping>
     <listener>
         <description>listener</description>
@@ -57,7 +54,7 @@
     </servlet>
     <servlet>
         <servlet-name>sendMail</servlet-name>
-        <servlet-class>servlet.sendMail</servlet-class>
+        <servlet-class>servlet.RecoveryPassword</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>Acquisti</servlet-name>
