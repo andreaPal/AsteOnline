@@ -34,9 +34,13 @@ public class CreateExcel {
         HSSFRow row;
         HSSFCell cell;
         HSSFCell cell2;
-        
+        row = sheet.createRow(0); 
+        cell = row.createCell(0);
+        cell2 = row.createCell(1);
+        cell.setCellValue("Nominativo"); 
+        cell2.setCellValue("Commissioni");
         for (int i=0; i<users.size();i++){
-            row = sheet.createRow(i);            
+            row = sheet.createRow(i+1);            
             for(int cellsNumber = 0; cellsNumber < 2; cellsNumber++){
                 cell = row.createCell(0);
                 cell2 = row.createCell(1);
